@@ -38,39 +38,51 @@
 
   [hidden] { display: none !important; }
 
-  /* ---------- Menú de Navegación Principal ---------- */
+  /* ---------- Menú de Navegación y Cronómetro ---------- */
   .main-nav {
     position: sticky;
     top: 0;
     background: var(--panel);
     border-bottom: 1px solid var(--line);
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .nav-buttons {
+    display: flex;
+    gap: 1rem;
   }
   .nav-btn {
     background: transparent;
     border: 2px solid var(--line);
-    padding: 0.6rem 1.4rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 50px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--ink-soft);
     cursor: pointer;
     transition: all 0.2s ease;
   }
-  .nav-btn:hover {
-    border-color: var(--teal);
-    color: var(--teal);
-  }
-  .nav-btn.active {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: white;
+  .nav-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .nav-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
+
+  .cronometro-box {
+    background: #111;
+    color: #ff4757;
+    font-family: monospace;
+    font-size: 1.1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   #loading, #error{
@@ -124,7 +136,6 @@
     color:var(--ink-soft);
   }
 
-  /* ---------- Pelotas y Hueso Metodológico ---------- */
   .methodology-wrapper {
     display: grid;
     grid-template-columns: 1fr;
@@ -177,7 +188,6 @@
   .method-text h3 { margin: 0 0 0.4rem; font-size: 1.25rem; color: var(--ink); }
   .method-text p { margin: 0; font-size: 1rem; color: var(--ink-soft); max-width: 50ch; line-height: 1.5; }
 
-  /* Hueso de Juguete */
   .bone-wrapper {
     display: flex;
     flex-direction: column;
@@ -217,20 +227,11 @@
   }
   .toy-bone::before { left: -20px; top: -12px; box-shadow: 0 34px 0 var(--rose); }
   .toy-bone::after { right: -20px; top: -12px; box-shadow: 0 34px 0 var(--rose); }
-  .bone-wrapper h3 { font-size: 1.3rem; color: var(--ink); margin: 0 0 0.5rem; }
-  .bone-wrapper p { font-size: 1rem; color: var(--ink-soft); margin: 0; line-height: 1.5; }
-
-  @media (max-width: 900px) {
-    .method-item { flex-direction: column; text-align: center; gap: 1rem; }
-    .method-text p { max-width: 100%; }
-    .toy-bone { width: 150px; font-size: 2.4rem; }
-  }
 
   section.block{ margin-top:3.4rem; }
   .block h2{ font-size:1.5rem; max-width:32em; }
   .block .q{ color:var(--rose); font-weight:500; font-family:'Inter',sans-serif; font-size:1rem; margin-bottom:0.5rem; display:block; }
   .block p.insight{ margin-top:0.9rem; max-width:64ch; color:var(--ink-soft); font-size:1rem; }
-  .block p.insight strong{ color:var(--ink); font-weight:600; }
 
   .chart-grid{
     margin-top:1.4rem;
@@ -288,9 +289,9 @@
     max-width: 450px;
     width: 100%;
   }
-  .highlight-card .big-num { font-family: 'Fraunces', serif; font-size: 6rem; color: #7A3542; font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
-  .highlight-card .big-txt { font-size: 1.25rem; color: #7A3542; font-weight: 600; margin-top: 0.5rem; line-height: 1.2; }
-  .highlight-card .big-sub { font-size: 1rem; margin-top: 1.5rem; color: #7A3542; opacity: 0.85; line-height: 1.4; }
+  .highlight-card .big-num { font-family: 'Fraunces', serif; font-size: 6rem; color: #7A3542; font-weight: 600; line-height: 1; }
+  .highlight-card .big-txt { font-size: 1.25rem; color: #7A3542; font-weight: 600; margin-top: 0.5rem; }
+  .highlight-card .big-sub { font-size: 1rem; margin-top: 1.5rem; color: #7A3542; opacity: 0.85; }
 
   .compare-grid{
     margin-top:1.4rem;
@@ -310,7 +311,6 @@
   .compare-card ul{ list-style:none; padding:0; margin:0; }
   .compare-card li{ padding:0.6rem 0; border-bottom:1px solid var(--line); font-size:0.92rem; color:var(--ink-soft); }
   .compare-card li:last-child{ border-bottom:none; }
-  .compare-card li strong{ color:var(--ink); }
 
   .cta-adopcion {
     text-align: center;
@@ -321,16 +321,8 @@
     border-radius: var(--radius);
     max-width: 700px;
   }
-  .cta-adopcion h3 { 
-    color: var(--teal); 
-    margin-bottom: 0.75rem; 
-    font-size: 1.6rem; 
-  }
-  .cta-adopcion p { 
-    color: var(--ink-soft); 
-    margin-bottom: 2.5rem; 
-    font-size: 1.1rem; 
-  }
+  .cta-adopcion h3 { color: var(--teal); margin-bottom: 0.75rem; font-size: 1.6rem; }
+  .cta-adopcion p { color: var(--ink-soft); margin-bottom: 2.5rem; font-size: 1.1rem; }
   .btn-wpp {
     display: inline-flex;
     align-items: center;
@@ -348,13 +340,9 @@
     transition: transform 0.2s, background 0.2s;
   }
   .btn-wpp:hover { background: #1EBE57; }
-  .btn-wpp:active { transform: scale(0.95); animation: none; }
 
-  /* ---------- Estilos para la sección de Escape Room ---------- */
-  #escape-room-view {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  /* ---------- Estilos de Minijuegos Escape Room ---------- */
+  #escape-room-view { max-width: 900px; margin: 0 auto; }
   .escape-card {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -362,63 +350,107 @@
     padding: 2rem;
     margin-bottom: 2rem;
   }
-  .escape-card h3 {
-    color: var(--teal);
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-  }
-  .escape-card p {
-    color: var(--ink-soft);
+  .escape-card h3 { color: var(--teal); font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .escape-card p { color: var(--ink-soft); margin-bottom: 1.5rem; }
+
+  /* Minijuego Fichas (Zona A) */
+  .fichas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
     margin-bottom: 1.5rem;
   }
-  .puzzle-input-group {
-    display: flex;
+  .ficha-item {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .ficha-item:hover { border-color: var(--teal); transform: translateY(-3px); }
+  .ficha-item.selected { background: var(--teal-soft); border-color: var(--teal); font-weight: 600; }
+  .orden-actual { font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 1rem; font-weight: 500; }
+
+  /* Minijuego Frecuencia (Zona B) */
+  .osciloscopio-box {
+    background: #111; color: #0ff; padding: 1.5rem; border-radius: 10px; text-align: center;
+    font-family: monospace; margin-bottom: 1.5rem; box-shadow: inset 0 0 15px rgba(0,255,255,0.2);
+  }
+  .osciloscopio-screen { font-size: 2rem; letter-spacing: 2px; margin-bottom: 0.5rem; text-shadow: 0 0 10px #0ff; }
+  .slider-freq { width: 100%; margin: 1rem 0; accent-color: var(--teal); cursor: pointer; }
+
+  /* Minijuego Ruta del Dinero (Zona C) */
+  .money-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .money-node {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .money-node:hover { border-color: var(--rose); }
+  .money-node.connected { background: var(--rose-soft); border-color: var(--rose); font-weight: 600; }
+
+  /* Dilema Moral (Zona D) */
+  .dilema-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
     margin-top: 1rem;
   }
-  .puzzle-input {
-    padding: 0.8rem 1rem;
-    font-size: 1.1rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: white;
-    font-family: 'Inter', sans-serif;
-    width: 200px;
+  .btn-dilema-azul {
+    background: #2980b9; color: white; border: none; padding: 1rem; border-radius: 10px;
+    font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s;
   }
+  .btn-dilema-azul:hover { background: #2471a3; }
+  .btn-dilema-rojo {
+    background: var(--rose); color: white; border: none; padding: 1rem; border-radius: 10px;
+    font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s;
+  }
+  .btn-dilema-rojo:hover { background: #964755; }
+
   .puzzle-btn {
-    background: var(--teal);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    background: var(--teal); color: white; border: none; padding: 0.8rem 1.5rem;
+    border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
   }
   .puzzle-btn:hover { background: #245853; }
-  .puzzle-feedback {
-    margin-top: 1rem;
-    font-weight: 600;
-  }
+  .puzzle-feedback { margin-top: 1rem; font-weight: 600; }
   .success-msg { color: #2C6E68; }
   .error-msg { color: var(--rose); }
 
   footer.note{
-    margin-top:4.5rem;
-    padding-top:1.5rem;
-    border-top:1px solid var(--line);
-    color:var(--ink-soft);
-    font-size:0.85rem;
-    max-width:64ch;
+    margin-top:4.5rem; padding-top:1.5rem; border-top:1px solid var(--line);
+    color:var(--ink-soft); font-size:0.85rem; max-width:64ch;
   }
 </style>
 
-<!-- FUNCIÓN GLOBAL ASEGURADA -->
 <script>
+  let tiempoSegundos = 0;
+  let cronometroInterval = null;
+
+  function iniciarCronometro() {
+    if (cronometroInterval) return;
+    cronometroInterval = setInterval(() => {
+      tiempoSegundos++;
+      let mins = Math.floor(tiempoSegundos / 60).toString().padStart(2, '0');
+      let segs = (tiempoSegundos % 60).toString().padStart(2, '0');
+      document.getElementById('tiempoTxt').innerText = `${mins}:${segs}`;
+    }, 1000);
+  }
+
   function switchView(viewName) {
-    const btnInfo = document.querySelector('.main-nav button:nth-child(1)');
-    const btnEscape = document.querySelector('.main-nav button:nth-child(2)');
+    const btnInfo = document.querySelector('.nav-buttons button:nth-child(1)');
+    const btnEscape = document.querySelector('.nav-buttons button:nth-child(2)');
     const dashboard = document.getElementById('dashboard');
     const escapeView = document.getElementById('escape-room-view');
 
@@ -434,16 +466,22 @@
       btnInfo.classList.remove('active');
       dashboard.hidden = true;
       escapeView.hidden = false;
+      iniciarCronometro(); // Comienza a contar el tiempo al entrar al Escape Room
     }
   }
 </script>
 </head>
 <body>
 
-  <!-- Menú de Navegación para alternar vistas -->
+  <!-- Menú de Navegación con Cronómetro Global -->
   <nav class="main-nav">
-    <button class="nav-btn active" onclick="switchView('info')">📊 Información del Proyecto</button>
-    <button class="nav-btn" onclick="switchView('escape')">🧩 Jugar Escape Room</button>
+    <div class="nav-buttons">
+      <button class="nav-btn active" onclick="switchView('info')">📊 Información</button>
+      <button class="nav-btn" onclick="switchView('escape')">🧩 Jugar Escape Room</button>
+    </div>
+    <div class="cronometro-box">
+      ⏱️ Tiempo: <span id="tiempoTxt">00:00</span>
+    </div>
   </nav>
 
   <div id="loading">
@@ -459,7 +497,6 @@
 
   <!-- VISTA 1: INFORMACIÓN Y DASHBOARD -->
   <div id="dashboard" hidden>
-
     <header class="hero">
       <div class="kicker">Vínculo humano–mascota · Demografía y afectos</div>
       <h1 class="title">¿Sobrepoblación de mascotas y <em>caída demográfica</em>?</h1>
@@ -469,7 +506,6 @@
         de natalidad en Argentina para explorar si el lazo humano-animal compite, complementa o reemplaza la paternidad en tiempos
         de ajuste económico y búsqueda de autonomía personal.
       </p>
-
       <div id="kpiStrip"></div>
     </header>
 
@@ -489,36 +525,15 @@
           <div class="chart-wrap"><canvas id="chartReemplaza"></canvas></div>
         </div>
       </div>
-
-      <div class="international-box">
-        <h4>El cambio de paradigma cultural (Perspectiva comparada: HumanePro / EE.UU.)</h4>
-        <p>A nivel internacional, los relevamientos demuestran que el animal doméstico dejó de ser percibido como un bien transaccional y pasó al orden del parentesco:</p>
-        <div class="stat-triad">
-          <div class="stat-item">
-            <div class="val">Mayoría</div>
-            <div class="tag">Considerados miembro de la familia</div>
-          </div>
-          <div class="stat-item">
-            <div class="val">Creciente</div>
-            <div class="tag">Considerados compañeros de vida</div>
-          </div>
-          <div class="stat-item">
-            <div class="val">Residual</div>
-            <div class="tag">Considerados mera "propiedad"</div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="block">
       <span class="q">Pregunta 2</span>
       <h2>¿Cómo relatan las audiencias su vínculo diario con las mascotas?</h2>
       <p class="insight">
-        Al analizar cualitativamente el discurso en el ecosistema digital, observamos un bloque contundente de interacciones que codifican un nivel extremo de afecto. La audiencia utiliza expresiones coloquiales y avanza explícitamente hacia un léxico de asimilación parental. El animal ocupa un lugar de altísima jerarquía emocional, integrado directamente como núcleo familiar.
+        Al analizar cualitativamente el discurso en el ecosistema digital, observamos un bloque contundente de interacciones que codifican un nivel extremo de afecto. La audiencia utiliza expresiones coloquiales y avanza explícitamente hacia un léxico de asimilación parental.
       </p>
-      
       <div class="quali-layout" id="qualiLayout"></div>
-      
     </section>
 
     <section class="block">
@@ -533,174 +548,169 @@
         </div>
       </div>
     </section>
-
-    <section class="block">
-      <span class="q">Discusión cualitativa</span>
-      <h2>Crianza vs. Tenencia: La ecuación entre economía y autonomía</h2>
-      <p class="insight">
-        Más allá de la afinidad afectiva, existen factores materiales que explican por qué la tenencia de animales crece mientras la maternidad y paternidad se posponen o descartan:
-      </p>
-      <div class="compare-grid">
-        <div class="compare-card mascota">
-          <h3>Vínculo con Mascota</h3>
-          <ul>
-            <li><strong>Costo económico:</strong> Inversión mensual acotada (alimentación y sanidad preventiva).</li>
-            <li><strong>Autonomía y tiempo:</strong> Permite mantener rutinas laborales flexibles y proyectos individuales.</li>
-            <li><strong>Compromiso:</strong> Cuidado de menor dependencia sin requerir reconfiguración de la carrera profesional.</li>
-          </ul>
-        </div>
-        <div class="compare-card hijos">
-          <h3>Crianza de Hijos</h3>
-          <ul>
-            <li><strong>Costo económico:</strong> Alta demanda presupuestaria sostenida (salud, educación, vivienda, vestimenta).</li>
-            <li><strong>Autonomía y tiempo:</strong> Demanda absoluta y pérdida de libertad personal inmediata, especialmente en los primeros años.</li>
-            <li><strong>Compromiso:</strong> Responsabilidad legal y social a largo plazo que condiciona el estilo de vida familiar.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <div class="cta-adopcion">
-      <h3>¿Tenés lugar en tu familia?</h3>
-      <p>Transformá el dato estadístico en acción directa. Comunicate con la organización <strong>Adopciones Quilmes</strong> y cambiale la vida a un animal rescatado.</p>
-      
-      <a href="https://wa.me/5491169233782?text=Hola%20me%20interesa%20adoptar!" target="_blank" class="btn-wpp">
-        ¡Adoptar por WhatsApp!
-      </a>
-    </div>
-
-    <footer class="note">
-      Nota metodológica: Encuesta propia, análisis textual de comentarios en YouTube, datos de natalidad del Registro Civil/Ministerio de Salud e indicadores conceptuales de HumanePro (Pets by the Numbers). Los datos permiten mapear una transformación en las prioridades afectivas y socioeconómicas contemporáneas, sin asumir causalidades lineales directas.
-    </footer>
-
   </div>
 
-  <!-- VISTA 2: SALA DE ESCAPE (ESCAPE ROOM INTERACTIVO) -->
+  <!-- VISTA 2: SALA DE ESCAPE INTERACTIVA COMPLETA -->
   <div id="escape-room-view" hidden style="padding: 2rem 1rem;">
     <header class="hero" style="margin-bottom: 2rem;">
       <div class="kicker">Experiencia Interactiva · Año 2063</div>
       <h1 class="title">Proyecto Inerte: <em>Sala de Escape</em></h1>
-      <p class="bajada">Poné a prueba tus habilidades resolviendo los misterios del consultorio del veterinario Patricio. Superá los desafíos antes de que se cumpla el tiempo límite.</p>
+      <p class="bajada">Superá los 4 desafíos interactivos del consultorio e investigá la conspiración antes de que el cronómetro se detenga[cite: 1, 2, 3, 4, 5].</p>
     </header>
 
-    <!-- Desafío 1: El Maletín -->
+    <!-- Zona A: Fichas Clínicas -->
     <div class="escape-card">
-      <h3>Zona A: El Maletín del Veterinario Patricio</h3>
-      <p>Ordená cronológicamente las 4 fichas clínicas veterinarias y descubrí la combinación numérica de 4 cifras (Ayuda del documento: Fichas ordenadas por fecha de ingreso, usando los números de los sellos).</p>
-      <div class="puzzle-input-group">
-        <input type="text" id="inputMaletin" class="puzzle-input" placeholder="Ej: 0000">
-        <button class="puzzle-btn" onclick="verificarMaletin()">Abrir Maletín</button>
+      <h3>Zona A: El Historial Clínico del Veterinario Patricio</h3>
+      <p>Hacé clic en las fichas clínicas en su <strong>orden cronológico exacto de ingreso</strong> para descubrir el código del maletín:</p>
+      <div class="orden-actual">Secuencia seleccionada: <strong id="secuenciaFichas">- - - -</strong></div>
+      <div class="fichas-container" id="fichasContainer">
+        <div class="ficha-item" onclick="seleccionarFicha(this, '8', '14/08/2061')"><strong>Ficha #3</strong><br><small>Ingreso: 14/08/2061</small><br>Sello: <strong>8</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '4', '02/01/2058')"><strong>Ficha #1</strong><br><small>Ingreso: 02/01/2058</small><br>Sello: <strong>4</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '5', '30/11/2062')"><strong>Ficha #4</strong><br><small>Ingreso: 30/11/2062</small><br>Sello: <strong>5</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '1', '19/05/2059')"><strong>Ficha #2</strong><br><small>Ingreso: 19/05/2059</small><br>Sello: <strong>1</strong></div>
+      </div>
+      <div style="display: flex; gap: 1rem;">
+        <button class="puzzle-btn" onclick="probarCombinacionFichas()">Desbloquear Maletín</button>
+        <button class="puzzle-btn" style="background: var(--ink-soft);" onclick="reiniciarFichas()">Reiniciar Fichas</button>
       </div>
       <div id="feedbackMaletin" class="puzzle-feedback"></div>
     </div>
 
-    <!-- Desafío 2: La Frecuencia de Audio -->
+    <!-- Zona B: Osciloscopio -->
     <div class="escape-card">
-      <h3>Zona B: La Frecuencia de Mecha</h3>
-      <p>Sintonizá la frecuencia exacta en hercios (Hz) descrita en la libreta de notas de Carla para aislar las interferencias de ruido blanco.</p>
-      <div class="puzzle-input-group">
-        <input type="number" id="inputFrecuencia" class="puzzle-input" placeholder="Ej: 000 Hz">
-        <button class="puzzle-btn" onclick="verificarFrecuencia()">Sintonizar</button>
+      <h3>Zona B: La Frecuencia de Mecha (Osciloscopio Analógico)</h3>
+      <p>Ajustá la perilla deslizante para sintonizar la frecuencia limpia exacta indicada en las notas de Carla.</p>
+      <div class="osciloscopio-box">
+        <div class="osciloscopio-screen" id="pantallaHz">~~~ 250 Hz ~~~</div>
+        <div id="estadoAudio" style="font-size: 0.85rem; color: #ff6b6b;">[ Estado: Estática y aullidos de interferencia ]</div>
       </div>
-      <div id="feedbackFrecuencia" class="puzzle-feedback"></div>
+      <input type="range" min="100" max="800" value="250" class="slider-freq" id="sliderFrecuencia" oninput="actualizarFrecuencia(this.value)">
     </div>
 
-    <!-- Desafío 3: El PIN Financiero -->
+    <!-- Zona C: Ruta del Dinero -->
     <div class="escape-card">
-      <h3>Zona C: La Ruta del Dinero</h3>
-      <p>Analiza el tablero de investigación y los balances contables para hallar el código PIN de 4 dígitos necesario para acceder a la terminal de auditoría.</p>
-      <div class="puzzle-input-group">
-        <input type="text" id="inputPin" class="puzzle-input" placeholder="Ej: 0000">
-        <button class="puzzle-btn" onclick="verificarPin()">Validar PIN</button>
+      <h3>Zona C: La Ruta del Dinero (Conexión Documental)</h3>
+      <p>Seleccioná en orden los 3 nodos correctos que estructuran el lavado de dinero de la conspiración para revelar el PIN de auditoría:</p>
+      <div class="money-grid">
+        <div class="money-node" onclick="seleccionarNodo(this, 'Clinica')">1. Clínica Veterinaria Patricio</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Fachada')">2. Fundación Fachada "Pax Animal"</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'SaludPrivada')">X. Proveedor de Salud Privada S.A.</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Politico')">3. Cuenta Institucional Partidaria</div>
       </div>
+      <div class="orden-actual">Nodos enlazados: <strong id="secuenciaNodos">Ninguno</strong></div>
+      <button class="puzzle-btn" onclick="verificarRutaDinero()">Validar Conexión Financiera (PIN: 8932)</button>
       <div id="feedbackPin" class="puzzle-feedback"></div>
+    </div>
+
+    <!-- Zona D: Dilema Moral Final -->
+    <div class="escape-card">
+      <h3>Zona D: Sala de Control y Decisión Final</h3>
+      <p>El sistema se purgará en segundos. Elegí el destino final de la investigación y de los sujetos de prueba:</p>
+      <div class="dilema-box">
+        <button class="btn-dilema-azul" onclick="tomarDecision('A')">OPCIÓN A: Liberación Inmediata<br><small>(Rescatás a Amélie, pero se pierden las pruebas contra el Político)</small>[cite: 5]</button>
+        <button class="btn-dilema-rojo" onclick="tomarDecision('B')">OPCIÓN B: Transmisión Masiva<br><small>(Desenmascarás al Político globalmente, pero los sujetos quedan atrapados)</small>[cite: 5]</button>
+      </div>
+      <div id="feedbackDilema" class="puzzle-feedback" style="margin-top: 1.5rem; font-size: 1.05rem;"></div>
     </div>
   </div>
 
 <script>
 const PUB_BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT2kbq08VCm15a0HyqWofnxXYwAaIfES2jXme7RTYyczoHVyodmSrJWNXTnP1uY-coF4c0NS9zH30T_/pub';
-
-const GID = {
-  encuesta: '1369376445',
-  nacimientos: '1691452967',
-  comentarios: '2085427083'
-};
-
+const GID = { encuesta: '1369376445', nacimientos: '1691452967', comentarios: '2085427083' };
 const csvUrl = gid => `${PUB_BASE_URL}?gid=${gid}&single=true&output=csv`;
-
 const COLORS = ['#B85C6B', '#2C6E68', '#D9A441', '#7D8C87', '#8A5A73', '#5C8F87'];
 
-function stripAccents(s){
-  return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-}
-
-function parseCsv(text){
-  return Papa.parse(text, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: h => h.replace(/\s+/g, ' ').trim()
-  }).data;
-}
-
-async function fetchSheet(gid){
-  const res = await fetch(csvUrl(gid));
-  if(!res.ok) throw new Error('HTTP ' + res.status);
-  const text = await res.text();
-  return parseCsv(text);
-}
-
-function tally(rows, key){
-  const map = {};
-  rows.forEach(r => {
-    const v = (r[key] || '').toString().trim();
-    if(!v) return;
-    map[v] = (map[v] || 0) + 1;
-  });
-  return map;
-}
-
+function stripAccents(s){ return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+function parseCsv(text){ return Papa.parse(text, { header: true, skipEmptyLines: true, transformHeader: h => h.replace(/\s+/g, ' ').trim() }).data; }
+async function fetchSheet(gid){ const res = await fetch(csvUrl(gid)); if(!res.ok) throw new Error('HTTP ' + res.status); return parseCsv(await res.text()); }
+function tally(rows, key){ const map = {}; rows.forEach(r => { const v = (r[key] || '').toString().trim(); if(v) map[v] = (map[v] || 0) + 1; }); return map; }
 function sumValues(obj){ return Object.values(obj).reduce((a,b) => a+b, 0); }
 function pct(part, total){ return total ? Math.round((part/total)*100) : 0; }
+function baseChartOptions(extra){ return Object.assign({ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { font: { family: 'Inter' }, color: '#1D2521' } } } }, extra); }
 
-function baseChartOptions(extra){
-  return Object.assign({
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { labels: { font: { family: 'Inter' }, color: '#1D2521' } },
-      tooltip: { titleFont: { family:'Inter' }, bodyFont: { family:'Inter' } }
-    }
-  }, extra);
+/* Navegación */
+function switchView(viewName) {
+  const btnInfo = document.querySelector('.nav-buttons button:nth-child(1)');
+  const btnEscape = document.querySelector('.nav-buttons button:nth-child(2)');
+  const dashboard = document.getElementById('dashboard');
+  const escapeView = document.getElementById('escape-room-view');
+  if (!btnInfo || !btnEscape || !dashboard || !escapeView) return;
+
+  if (viewName === 'info') {
+    btnInfo.classList.add('active'); btnEscape.classList.remove('active');
+    dashboard.hidden = false; escapeView.hidden = true;
+  } else {
+    btnEscape.classList.add('active'); btnInfo.classList.remove('active');
+    dashboard.hidden = true; escapeView.hidden = false;
+    iniciarCronometro();
+  }
 }
 
-/* Lógica de validación de minijuegos del Escape Room */
-function verificarMaletin() {
-  const val = document.getElementById('inputMaletin').value.trim();
+/* Minijuego Zona A */
+let codigosSeleccionados = [];
+function seleccionarFicha(el, sello, fecha) {
+  if (el.classList.contains('selected')) return;
+  el.classList.add('selected');
+  codigosSeleccionados.push(sello);
+  document.getElementById('secuenciaFichas').innerText = codigosSeleccionados.join(' - ');
+}
+function reiniciarFichas() {
+  codigosSeleccionados = [];
+  document.getElementById('secuenciaFichas').innerText = '- - - -';
+  document.getElementById('feedbackMaletin').innerHTML = '';
+  document.querySelectorAll('.ficha-item').forEach(el => el.classList.remove('selected'));
+}
+function probarCombinacionFichas() {
   const fb = document.getElementById('feedbackMaletin');
-  if (val === '4185') {
-    fb.innerHTML = '<span class="success-msg">¡Correcto! El maletín se abrió y encontraste la llave dorada y el collar traductor.</span>';
+  if (codigosSeleccionados.join('') === '4185') {
+    fb.innerHTML = '<span class="success-msg">¡Maletín abierto! Encontraste la llave dorada y el collar traductor[cite: 2].</span>';
   } else {
-    fb.innerHTML = '<span class="error-msg">Código incorrecto. Revisá el orden cronológico de las fichas clínicas.</span>';
+    fb.innerHTML = '<span class="error-msg">Secuencia incorrecta. Revisá las fechas de ingreso[cite: 2].</span>';
   }
 }
 
-function verificarFrecuencia() {
-  const val = document.getElementById('inputFrecuencia').value.trim();
-  const fb = document.getElementById('feedbackFrecuencia');
-  if (val === '430') {
-    fb.innerHTML = '<span class="success-msg">¡Frecuencia sintonizada! Escuchás la voz de Mecha revelando el paradero de Amélie (Sujeto 0-4).</span>';
+/* Minijuego Zona B */
+function actualizarFrecuencia(val) {
+  const pantalla = document.getElementById('pantallaHz');
+  const estado = document.getElementById('estadoAudio');
+  if (val == 430) {
+    pantalla.innerHTML = `=== 430 Hz (LIMPIO) ===`;
+    estado.style.color = '#2ed573';
+    estado.innerHTML = `[ ¡Frecuencia sintonizada! Voz de Mecha: "¡Amélie es el Sujeto 0-4, antígeno en el frasco violeta!" ][cite: 3]`;
   } else {
-    fb.innerHTML = '<span class="error-msg">Estática y aullidos. Esa no es la frecuencia limpia indicada por Carla (430 Hz).</span>';
+    pantalla.innerHTML = `~~~ ${val} Hz ~~~`;
+    estado.style.color = '#ff6b6b';
+    estado.innerHTML = `[ Estado: Estática y aullidos de interferencia ]`;
   }
 }
 
-function verificarPin() {
-  const val = document.getElementById('inputPin').value.trim();
+/* Minijuego Zona C */
+let nodosRuta = [];
+function seleccionarNodo(el, tipo) {
+  if (el.classList.contains('connected')) return;
+  el.classList.add('connected');
+  nodosRuta.push(tipo);
+  document.getElementById('secuenciaNodos').innerText = nodosRuta.join(' → ');
+}
+function verificarRutaDinero() {
   const fb = document.getElementById('feedbackPin');
-  if (val === '8932') {
-    fb.innerHTML = '<span class="success-msg">¡PIN validado con éxito! Terminal de auditoría desbloqueada.</span>';
+  if (nodosRuta.length === 3 && nodosRuta[0] === 'Clinica' && nodosRuta[1] === 'Fachada' && nodosRuta[2] === 'Politico') {
+    fb.innerHTML = '<span class="success-msg">¡Ruta validada con éxito! PIN verificado: <strong>8932</strong>. Terminal de auditoría desbloqueada[cite: 4].</span>';
   } else {
-    fb.innerHTML = '<span class="error-msg">Acceso denegado. Verifiqué la ruta del dinero y la fundación fachada.</span>';
+    fb.innerHTML = '<span class="error-msg">Conexión monetaria errónea. El flujo debe iniciar en la clínica y pasar por la fachada[cite: 4].</span>';
+  }
+}
+
+/* Minijuego Zona D: Decisión Final */
+function tomarDecision(opcion) {
+  const fb = document.getElementById('feedbackDilema');
+  let tiempoFinal = document.getElementById('tiempoTxt').innerText;
+  clearInterval(cronometroInterval); // Detener el cronómetro
+
+  if (opcion === 'A') {
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN A EJECUTADA!</strong> Liberaste a Amélie y a la banda de Mecha. Sin embargo, los servidores sufrieron un formateo irrecuperable y las pruebas se perdieron.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
+  } else {
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN B EJECUTADA!</strong> Transmisión masiva exitosa a todos los medios públicos. La conspiración salió a la luz, pero las fuerzas de seguridad bloquearon el rescate físico.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
   }
 }
 
@@ -708,37 +718,23 @@ async function init(){
   document.getElementById('loading').hidden = false;
   document.getElementById('error').hidden = true;
   document.getElementById('dashboard').hidden = true;
-
   try{
-    const [encuesta, nacimientos, comentarios] = await Promise.all([
-      fetchSheet(GID.encuesta),
-      fetchSheet(GID.nacimientos),
-      fetchSheet(GID.comentarios)
-    ]);
-
+    const [encuesta, nacimientos, comentarios] = await Promise.all([fetchSheet(GID.encuesta), fetchSheet(GID.nacimientos), fetchSheet(GID.comentarios)]);
     document.getElementById('loading').hidden = true;
-    document.getElementById('error').hidden = true;
     document.getElementById('dashboard').hidden = false;
-
     render(encuesta, nacimientos, comentarios);
-
   }catch(err){
-    console.error(err);
     document.getElementById('loading').hidden = true;
-    document.getElementById('dashboard').hidden = true;
     document.getElementById('error').hidden = false;
   }
 }
 
 function render(encuesta, nacimientos, comentarios){
-  const K_TIENE_MASCOTA = '¿Tenés alguna mascota?';
+  const K_TIENE = '¿Tenés alguna mascota?';
   const K_CREES = '¿Creés que una mascota puede ocupar el lugar emocional de un vínculo humano o familiar?';
   const K_REEMPLAZA = 'En tu caso personal, ¿sentís que tu mascota reemplaza o complementa tus vínculos con otras personas?';
 
   const totalEncuestados = encuesta.length;
-  const tieneMascotaCount = encuesta.filter(r => stripAccents(r[K_TIENE_MASCOTA] || '').startsWith('si')).length;
-  const pctConMascota = pct(tieneMascotaCount, totalEncuestados);
-
   const creesCounts = tally(encuesta, K_CREES);
   const creesTotal = sumValues(creesCounts);
   const creesSiCount = Object.entries(creesCounts).find(([k]) => stripAccents(k).startsWith('si'));
@@ -752,123 +748,24 @@ function render(encuesta, nacimientos, comentarios){
   const totalComentarios = comentarios.filter(r => (r.text || '').toString().trim().length > 0).length;
   const representacion28 = Math.round(totalComentarios * 0.28);
 
-  document.getElementById('qualiLayout').innerHTML = `
-    <div class="highlight-card">
-      <div class="big-num">28%</div>
-      <div class="big-txt">de las interacciones</div>
-      <div class="big-sub">
-        Equivale a más de <strong>${representacion28.toLocaleString('es-AR')}</strong> comentarios analizados en 100 videos de mascotas de YouTube.
-      </div>
-    </div>
-  `;
+  document.getElementById('qualiLayout').innerHTML = `<div class="highlight-card"><div class="big-num">28%</div><div class="big-txt">de las interacciones</div><div class="big-sub">Equivale a más de <strong>${representacion28.toLocaleString('es-AR')}</strong> comentarios analizados en videos de YouTube.</div></div>`;
 
   const porAnio = {};
   nacimientos.forEach(r => {
-    const anio = parseInt(r.anio, 10);
-    const cantidad = parseInt(r.cantidad, 10);
-    if(isNaN(anio) || isNaN(cantidad)) return;
-    porAnio[anio] = (porAnio[anio] || 0) + cantidad;
+    const anio = parseInt(r.anio, 10), cantidad = parseInt(r.cantidad, 10);
+    if(!isNaN(anio) && !isNaN(cantidad)) porAnio[anio] = (porAnio[anio] || 0) + cantidad;
   });
   const anios = Object.keys(porAnio).map(Number).sort((a,b) => a-b);
   const valores = anios.map(a => porAnio[a]);
-  const firstYear = anios[0], lastYear = anios[anios.length - 1];
   const firstVal = valores[0], lastVal = valores[valores.length - 1];
   const variacion = firstVal ? Math.round(((lastVal - firstVal) / firstVal) * 100) : 0;
 
-  const kpiStrip = document.getElementById('kpiStrip');
-  kpiStrip.className = 'methodology-wrapper';
-  kpiStrip.innerHTML = `
-    <div class="methodology-list">
-      <div class="method-item">
-        <div class="toy-ball ball-1">${totalEncuestados}</div>
-        <div class="method-text">
-          <h3>Encuesta cuantitativa propia</h3>
-          <p>Cuestionario autoadministrado para relevar el rol afectivo de las mascotas en el entorno local, permitiendo segmentar las respuestas.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="toy-ball ball-2">${totalComentarios.toLocaleString('es-AR')}</div>
-        <div class="method-text">
-          <h3>Scraping de YouTube</h3>
-          <p>Extracción automatizada de comentarios en 100 videos de temática animal para analizar orgánicamente el discurso y las expresiones de afecto en la red.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="toy-ball ball-3">${variacion > 0 ? '+' : ''}${variacion}%</div>
-        <div class="method-text">
-          <h3>Registros del Gobierno Nacional</h3>
-          <p>Evolución de los nacimientos a nivel país (${firstYear} → ${lastYear}). El dato surge de la base oficial consolidando los nacimientos anuales por provincia.</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="bone-wrapper">
-      <div class="toy-bone">${pctConMascota}%</div>
-      <h3>Tienen mascota</h3>
-      <p>De la muestra total encuestada, esta es la proporción exacta que convive actualmente con animales, confirmando la adopción masiva en los hogares.</p>
-    </div>
-  `;
+  document.getElementById('insight1').innerHTML = `Sobre <strong>${creesTotal}</strong> respuestas, un <strong>${pctCreesSi}%</strong> considera admisible que una mascota ocupe un lugar emocional humano. Sin embargo, el <strong>${pctComplementa}%</strong> define el lazo como un <strong>complemento</strong>.`;
+  document.getElementById('insight3').innerHTML = `Los nacimientos descendieron un <strong>${variacion}%</strong> a lo largo de los años registrados, coincidiendo con la jerarquización de los animales en los hogares.`;
 
-  document.getElementById('insight1').innerHTML =
-    `Sobre <strong>${creesTotal}</strong> respuestas, un <strong>${pctCreesSi}%</strong> considera admisible que una mascota
-    llegue a ocupar el lugar emocional de un vínculo humano o familiar. Sin embargo, en el plano personal directo, el
-    <strong>${pctComplementa}%</strong> define el lazo como un <strong>complemento</strong> afectivo y no una sustitución. Al igual
-    que muestran los relevamientos globales, el animal deja de concebirse como un objeto de propiedad y asume estatus de afecto,
-    pero convive junto a la red de sociabilidad humana en vez de anularla.`;
-
-  document.getElementById('insight3').innerHTML =
-    `Los nacimientos totales registrados descendieron de <strong>${firstVal.toLocaleString('es-AR')}</strong> en
-    ${firstYear} a <strong>${lastVal.toLocaleString('es-AR')}</strong> en ${lastYear}
-    (caída del <strong>${variacion}%</strong>). La curva coincide en el tiempo con la consolidación de los animales como miembros del hogar.
-    Sin embargo, la demografía responde a condicionantes materiales estructurales: mientras la crianza de un hijo exige una inversión económica prolongada y postergación de la autonomía individual, la mascota ofrece compañía afectiva inmediata con costos y ataduras sustancialmente menores.`;
-
-  new Chart(document.getElementById('chartCrees'), {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(creesCounts),
-      datasets: [{ data: Object.values(creesCounts), backgroundColor: COLORS, borderColor: '#FBFAF7', borderWidth: 2 }]
-    },
-    options: baseChartOptions({ plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font:{family:'Inter'}, color:'#1D2521' } } } })
-  });
-
-  new Chart(document.getElementById('chartReemplaza'), {
-    type: 'bar',
-    data: {
-      labels: Object.keys(reemplazaCounts),
-      datasets: [{ label: 'Respuestas', data: Object.values(reemplazaCounts), backgroundColor: '#2C6E68', borderRadius: 4 }]
-    },
-    options: baseChartOptions({
-      indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { beginAtZero: true, ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { color:'#D8D9D0' } },
-        y: { ticks: { font:{family:'Inter'}, color:'#1D2521' }, grid: { display:false } }
-      }
-    })
-  });
-
-  new Chart(document.getElementById('chartNacimientos'), {
-    type: 'line',
-    data: {
-      labels: anios,
-      datasets: [{
-        label: 'Nacimientos totales',
-        data: valores,
-        borderColor: '#B85C6B',
-        backgroundColor: 'rgba(184,92,107,0.12)',
-        fill: true,
-        tension: 0.3,
-        pointRadius: 2
-      }]
-    },
-    options: baseChartOptions({
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: false, ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { color:'#D8D9D0' } },
-        x: { ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { display:false } }
-      }
-    })
-  });
+  new Chart(document.getElementById('chartCrees'), { type: 'doughnut', data: { labels: Object.keys(creesCounts), datasets: [{ data: Object.values(creesCounts), backgroundColor: COLORS }] }, options: baseChartOptions() });
+  new Chart(document.getElementById('chartReemplaza'), { type: 'bar', data: { labels: Object.keys(reemplazaCounts), datasets: [{ data: Object.values(reemplazaCounts), backgroundColor: '#2C6E68' }] }, options: baseChartOptions({ indexAxis: 'y', plugins: { legend: { display: false } } }) });
+  new Chart(document.getElementById('chartNacimientos'), { type: 'line', data: { labels: anios, datasets: [{ data: valores, borderColor: '#B85C6B', backgroundColor: 'rgba(184,92,107,0.12)', fill: true }] }, options: baseChartOptions({ plugins: { legend: { display: false } } }) });
 }
 
 document.getElementById('retryBtn').addEventListener('click', init);
