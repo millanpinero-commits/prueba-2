@@ -84,7 +84,7 @@
   }
 
   #loading, #error{
-    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; gap:1rem;
+    min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; gap:1rem;
   }
   .spinner{
     width:40px; height:40px; border-radius:50%; border:3px solid var(--line); border-top-color:var(--rose); animation:spin 0.9s linear infinite;
@@ -491,18 +491,18 @@
 
     <!-- ZONA C: Ruta del Dinero -->
     <div class="escape-card" id="cardZonaC" style="opacity: 0.5; pointer-events: none;">
-      ### Paso 3 / Zona C: La Ruta del Dinero Político
+      <h3>Paso 3 / Zona C: La Ruta del Dinero Político</h3>
       <div class="lore-box">
         <div class="lore-text" style="min-width: 100%;">
           <strong>Continuación del recorrido:</strong> <em>¡Audio descifrado!</em> Ya sabés dónde está retenida Amélie. El siguiente paso consiste en acceder a la terminal de auditoría del archivo secreto para desenmascarar a los responsables. En el tablero hay opciones, pero cuidado: <strong>la ficha marcada con "X" es una falsa pista</strong> plantada por los encubridores para despistar. Seleccioná únicamente los 3 nodos lógicos que demuestran el flujo real del lavado de fondos.
         </div>
       </div>
-      <p>Seleccioná en orden correlativo los 3 nodos correctos de la red clandestina para destrabar el PIN (8-9-3-2)[cite: 4]:</p>
+      <p>Seleccioná en orden correlativo los 3 nodos correctos de la red clandestina para destrabar el PIN (8-9-3-2):</p>
       <div class="money-grid">
-        <div class="money-node" onclick="seleccionarNodo(this, 'Clinica')">1. Clínica Veterinaria Patricio (Origen de ingresos)[cite: 4]</div>
-        <div class="money-node" onclick="seleccionarNodo(this, 'Fachada')">2. Fundación Fachada "Pax Animal" (Lavado de fondos)[cite: 4]</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Clinica')">1. Clínica Veterinaria Patricio (Origen de ingresos)</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Fachada')">2. Fundación Fachada "Pax Animal" (Lavado de fondos)</div>
         <div class="money-node falsa" onclick="seleccionarNodo(this, 'SaludPrivada')">X. Proveedor de Salud Privada S.A. (Falsa pista / Distracción)</div>
-        <div class="money-node" onclick="seleccionarNodo(this, 'Politico')">3. Cuenta Institucional del Partido Político (Destino final del Político NN)[cite: 4]</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Politico')">3. Cuenta Institucional del Partido Político (Destino final del Político NN)</div>
       </div>
       <div class="orden-actual">Circuito financiero enlazado: <strong id="secuenciaNodos">Ninguno</strong></div>
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -520,15 +520,15 @@
           <strong>Fin del recorrido:</strong> <em>¡Terminal hackeada!</em> Estás en la consola central de la Sala de Control. El temporizador automático activó la purga definitiva de datos ante tu intrusión y las fuerzas de seguridad se acercan. Tomá la decisión final que definirá el destino de la investigación y de los sujetos.
         </div>
       </div>
-      <p>Elegí cómo cerrar el caso[cite: 5]:</p>
+      <p>Elegí cómo cerrar el caso:</p>
       <div class="dilema-box">
         <button class="btn-dilema-azul" onclick="tomarDecision('A')">
           <strong>OPCIÓN A: Liberación Inmediata</strong><br>
-          Destrabar las celdas y rescatar a Amélie y a la banda, perdiendo todas las pruebas digitales contra el Político[cite: 5].
+          Destrabar las celdas y rescatar a Amélie y a la banda, perdiendo todas las pruebas digitales contra el Político.
         </button>
         <button class="btn-dilema-rojo" onclick="tomarDecision('B')">
           <strong>OPCIÓN B: Transmisión Masiva</strong><br>
-          Eyector masivo de archivos a todas las cadenas públicas para exponer al Político globalmente, abandonando a los sujetos de prueba[cite: 5].
+          Eyector masivo de archivos a todas las cadenas públicas para exponer al Político globalmente, abandonando a los sujetos de prueba.
         </button>
       </div>
       <div style="margin-top: 1rem;">
@@ -638,14 +638,14 @@ function reiniciarRutaDinero() {
 function verificarRutaDinero() {
   const fb = document.getElementById('feedbackPin');
   if (nodosRuta.length === 3 && nodosRuta[0] === 'Clinica' && nodosRuta[1] === 'Fachada' && nodosRuta[2] === 'Politico') {
-    fb.innerHTML = '<span class="success-msg">¡Trazabilidad confirmada! PIN 8932 validado[cite: 4]. ¡Avanzá al Paso 4 final!</span>';
+    fb.innerHTML = '<span class="success-msg">¡Trazabilidad confirmada! PIN 8932 validado. ¡Avanzá al Paso 4 final!</span>';
     
     const zonaD = document.getElementById('cardZonaD');
     zonaD.style.opacity = '1';
     zonaD.style.pointerEvents = 'auto';
     zonaD.scrollIntoView({ behavior: 'smooth' });
   } else {
-    fb.innerHTML = '<span class="error-msg">Circuito financiero erróneo. Usá el botón de reiniciar para corregir el flujo[cite: 4].</span>';
+    fb.innerHTML = '<span class="error-msg">Circuito financiero erróneo. Usá el botón de reiniciar para corregir el flujo.</span>';
   }
 }
 
@@ -656,9 +656,9 @@ function tomarDecision(opcion) {
   if (cronometroInterval) clearInterval(cronometroInterval);
 
   if (opcion === 'A') {
-    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN A EJECUTADA!</strong> Liberaste a Amélie y a la banda de Mecha. Sin embargo, los servidores sufrieron un formateo irrecuperable y las pruebas contra el Político se perdieron.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN A EJECUTADA!</strong> Liberaste a Amélie y a la banda de Mecha. Sin embargo, los servidores sufrieron un formateo irrecuperable y las pruebas contra el Político se perdieron.<br><em>Tiempo total de resolución: ${tiempoFinal}</em></span>`;
   } else {
-    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN B EJECUTADA!</strong> Transmisión masiva exitosa a todas las redes públicas. La conspiración política salió a la luz globalmente, pero las fuerzas de seguridad bloquearon el rescate físico de los sujetos.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN B EJECUTADA!</strong> Transmisión masiva exitosa a todas las redes públicas. La conspiración política salió a la luz globalmente, pero las fuerzas de seguridad bloquearon el rescate físico de los sujetos.<br><em>Tiempo total de resolución: ${tiempoFinal}</em></span>`;
   }
 }
 
