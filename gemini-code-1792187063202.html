@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto Inerte: El vínculo con las mascotas y Escape Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<style>
+  :root{
+    --bg: #EEF0EC;
+    --panel: #FBFAF7;
+    --ink: #1D2521;
+    --ink-soft: #55605B;
+    --rose: #B85C6B;
+    --rose-soft: #E3B7BE;
+    --teal: #2C6E68;
+    --teal-soft: #AFD1CC;
+    --gold: #D9A441;
+    --line: #D8D9D0;
+    --radius: 14px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; margin:0; }
+  a{ color:var(--teal); text-decoration: none; }
+
+  [hidden] { display: none !important; }
+
+  /* ---------- Menú de Navegación Principal ---------- */
+  .main-nav {
+    position: sticky;
+    top: 0;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .nav-btn {
+    background: transparent;
+    border: 2px solid var(--line);
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .nav-btn:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .nav-btn.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  #loading, #error{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:2rem;
+    gap:1rem;
+  }
+  .spinner{
+    width:40px; height:40px;
+    border-radius:50%;
+    border:3px solid var(--line);
+    border-top-color:var(--rose);
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  #loading p, #error p{ color:var(--ink-soft); max-width:32em; }
+  #error h2{ color:var(--rose); }
+  #retryBtn{
+    font-family:'Inter', sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--panel);
+    background:var(--teal);
+    border:none;
+    padding:0.7rem 1.4rem;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  #retryBtn:hover{ background:#245853; }
+
+  #dashboard{ max-width:1180px; margin:0 auto; padding:3.5rem 1.75rem 5rem; }
+
+  header.hero{ margin-bottom:2.75rem; }
+  .kicker{ color:var(--rose); font-weight:600; font-size:0.95rem; margin-bottom:0.6rem; }
+  h1.title{
+    font-size:clamp(2rem, 4.4vw, 3.1rem);
+    line-height:1.12;
+    max-width:16.5em;
+    letter-spacing:-0.01em;
+  }
+  h1.title em{ font-style:italic; color:var(--rose); }
+  .bajada{
+    margin-top:1.1rem;
+    max-width:48em;
+    font-size:1.15rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Pelotas y Hueso Metodológico ---------- */
+  .methodology-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    margin-top: 3.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 3rem;
+  }
+  @media (min-width: 900px) {
+    .methodology-wrapper {
+      grid-template-columns: 3fr 2fr;
+      align-items: center;
+    }
+  }
+
+  .methodology-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .method-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .toy-ball {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--panel);
+    box-shadow: inset -15px -15px 25px rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.08);
+    animation: float 3.5s ease-in-out infinite;
+  }
+  .ball-1 { background: radial-gradient(circle at 30% 30%, #43968E, var(--teal)); }
+  .ball-2 { background: radial-gradient(circle at 30% 30%, #D67283, var(--rose)); animation-delay: -1s; }
+  .ball-3 { background: radial-gradient(circle at 30% 30%, #F5C263, var(--gold)); animation-delay: -2s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .method-text h3 { margin: 0 0 0.4rem; font-size: 1.25rem; color: var(--ink); }
+  .method-text p { margin: 0; font-size: 1rem; color: var(--ink-soft); max-width: 50ch; line-height: 1.5; }
+
+  /* Hueso de Juguete */
+  .bone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: var(--panel);
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+  }
+  .toy-bone {
+    position: relative;
+    width: 170px;
+    height: 60px;
+    background: var(--rose);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: white;
+    margin: 1.5rem auto 3.5rem;
+    filter: drop-shadow(0 12px 15px rgba(0,0,0,0.15));
+    animation: float 4s ease-in-out infinite;
+    animation-delay: -1.5s;
+  }
+  .toy-bone::before, .toy-bone::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: var(--rose);
+    border-radius: 50%;
+    z-index: -1;
+  }
+  .toy-bone::before { left: -20px; top: -12px; box-shadow: 0 34px 0 var(--rose); }
+  .toy-bone::after { right: -20px; top: -12px; box-shadow: 0 34px 0 var(--rose); }
+  .bone-wrapper h3 { font-size: 1.3rem; color: var(--ink); margin: 0 0 0.5rem; }
+  .bone-wrapper p { font-size: 1rem; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .method-item { flex-direction: column; text-align: center; gap: 1rem; }
+    .method-text p { max-width: 100%; }
+    .toy-bone { width: 150px; font-size: 2.4rem; }
+  }
+
+  section.block{ margin-top:3.4rem; }
+  .block h2{ font-size:1.5rem; max-width:32em; }
+  .block .q{ color:var(--rose); font-weight:500; font-family:'Inter',sans-serif; font-size:1rem; margin-bottom:0.5rem; display:block; }
+  .block p.insight{ margin-top:0.9rem; max-width:64ch; color:var(--ink-soft); font-size:1rem; }
+  .block p.insight strong{ color:var(--ink); font-weight:600; }
+
+  .chart-grid{
+    margin-top:1.4rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(360px, 1fr));
+    gap:1.25rem;
+  }
+  .chart-grid.single{ grid-template-columns:1fr; }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.4rem 1.5rem 1.1rem;
+  }
+  .panel h3{ font-size:1.05rem; font-weight:600; }
+  .panel .sub{ color:var(--ink-soft); font-size:0.88rem; margin-top:0.2rem; }
+  .chart-wrap{ position:relative; height:300px; width:100%; margin-top:1rem; }
+  .chart-wrap.tall{ height:340px; }
+
+  .international-box{
+    margin-top:1.25rem;
+    background:#F4F5F0;
+    border:1px dashed var(--line);
+    border-radius:var(--radius);
+    padding:1.2rem 1.4rem;
+  }
+  .international-box h4{ margin:0 0 0.4rem; font-size:0.95rem; color:var(--teal); font-weight:600; }
+  .international-box p{ margin:0; font-size:0.9rem; color:var(--ink-soft); }
+  .stat-triad{ display:flex; gap:1.5rem; margin-top:0.8rem; flex-wrap:wrap; }
+  .stat-item{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:0.6rem 1rem;
+    border-radius:8px;
+    flex:1 1 120px;
+  }
+  .stat-item .val{ font-size:1.3rem; font-family:'Fraunces', serif; font-weight:600; color:var(--rose); }
+  .stat-item .tag{ font-size:0.8rem; color:var(--ink-soft); }
+
+  .quali-layout {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .highlight-card {
+    background: var(--rose-soft);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(184, 92, 107, 0.3);
+    max-width: 450px;
+    width: 100%;
+  }
+  .highlight-card .big-num { font-family: 'Fraunces', serif; font-size: 6rem; color: #7A3542; font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+  .highlight-card .big-txt { font-size: 1.25rem; color: #7A3542; font-weight: 600; margin-top: 0.5rem; line-height: 1.2; }
+  .highlight-card .big-sub { font-size: 1rem; margin-top: 1.5rem; color: #7A3542; opacity: 0.85; line-height: 1.4; }
+
+  .compare-grid{
+    margin-top:1.4rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:1.25rem;
+  }
+  .compare-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.5rem;
+  }
+  .compare-card h3{ font-size:1.15rem; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.5rem; }
+  .compare-card.mascota h3{ color:var(--teal); }
+  .compare-card.hijos h3{ color:var(--rose); }
+  .compare-card ul{ list-style:none; padding:0; margin:0; }
+  .compare-card li{ padding:0.6rem 0; border-bottom:1px solid var(--line); font-size:0.92rem; color:var(--ink-soft); }
+  .compare-card li:last-child{ border-bottom:none; }
+  .compare-card li strong{ color:var(--ink); }
+
+  .cta-adopcion {
+    text-align: center;
+    margin: 5rem auto 2rem;
+    padding: 3rem 2rem;
+    background: #F4F5F0;
+    border: 1px dashed var(--teal);
+    border-radius: var(--radius);
+    max-width: 700px;
+  }
+  .cta-adopcion h3 { 
+    color: var(--teal); 
+    margin-bottom: 0.75rem; 
+    font-size: 1.6rem; 
+  }
+  .cta-adopcion p { 
+    color: var(--ink-soft); 
+    margin-bottom: 2.5rem; 
+    font-size: 1.1rem; 
+  }
+  .btn-wpp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #25D366;
+    color: white;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    padding: 1.2rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 12px 20px rgba(37, 211, 102, 0.25);
+    animation: float 3s ease-in-out infinite;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-wpp:hover { background: #1EBE57; }
+  .btn-wpp:active { transform: scale(0.95); animation: none; }
+
+  /* ---------- Estilos para la sección de Escape Room ---------- */
+  #escape-room-view {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .escape-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  .escape-card h3 {
+    color: var(--teal);
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+  .escape-card p {
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+  .puzzle-input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .puzzle-input {
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: white;
+    font-family: 'Inter', sans-serif;
+    width: 200px;
+  }
+  .puzzle-btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .puzzle-btn:hover { background: #245853; }
+  .puzzle-feedback {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+  .success-msg { color: #2C6E68; }
+  .error-msg { color: var(--rose); }
+
+  footer.note{
+    margin-top:4.5rem;
+    padding-top:1.5rem;
+    border-top:1px solid var(--line);
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    max-width:64ch;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Menú de Navegación para alternar vistas -->
+  <nav class="main-nav">
+    <button class="nav-btn active" onclick="switchView('info')">📊 Información del Proyecto</button>
+    <button class="nav-btn" onclick="switchView('escape')">🧩 Jugar Escape Room</button>
+  </nav>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    <p>Cargando encuesta, comentarios y estadísticas de natalidad desde la planilla…</p>
+  </div>
+
+  <div id="error" hidden>
+    <h2>No se pudieron cargar los datos</h2>
+    <p id="errorMsg">Revisá que la planilla de Google Sheets esté publicada en la web y accesible.</p>
+    <button id="retryBtn">Reintentar</button>
+  </div>
+
+  <!-- VISTA 1: INFORMACIÓN Y DASHBOARD -->
+  <div id="dashboard" hidden>
+
+    <header class="hero">
+      <div class="kicker">Vínculo humano–mascota · Demografía y afectos</div>
+      <h1 class="title">¿Sobrepoblación de mascotas y <em>caída demográfica</em>?</h1>
+      <p class="bajada">
+        ¿Avanzamos hacia un escenario donde los animales de compañía sustituyen la descendencia humana?
+        Cruzamos una encuesta local sobre el rol afectivo de las mascotas, comentarios en videos masivos y estadísticas oficiales
+        de natalidad en Argentina para explorar si el lazo humano-animal compite, complementa o reemplaza la paternidad en tiempos
+        de ajuste económico y búsqueda de autonomía personal.
+      </p>
+
+      <div id="kpiStrip"></div>
+    </header>
+
+    <section class="block">
+      <span class="q">Pregunta 1</span>
+      <h2>¿Puede el vínculo con una mascota reemplazar el vínculo con un humano?</h2>
+      <p class="insight" id="insight1"></p>
+      <div class="chart-grid">
+        <div class="panel">
+          <h3>"¿Creés que una mascota puede ocupar el lugar emocional de un vínculo humano o familiar?"</h3>
+          <div class="sub">Respuesta directa de los encuestados con mascota</div>
+          <div class="chart-wrap"><canvas id="chartCrees"></canvas></div>
+        </div>
+        <div class="panel">
+          <h3>"¿Tu mascota reemplaza o complementa tus vínculos con otras personas?"</h3>
+          <div class="sub">En el caso personal de cada encuestado/a</div>
+          <div class="chart-wrap"><canvas id="chartReemplaza"></canvas></div>
+        </div>
+      </div>
+
+      <div class="international-box">
+        <h4>El cambio de paradigma cultural (Perspectiva comparada: HumanePro / EE.UU.)</h4>
+        <p>A nivel internacional, los relevamientos demuestran que el animal doméstico dejó de ser percibido como un bien transaccional y pasó al orden del parentesco:</p>
+        <div class="stat-triad">
+          <div class="stat-item">
+            <div class="val">Mayoría</div>
+            <div class="tag">Considerados miembro de la familia</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">Creciente</div>
+            <div class="tag">Considerados compañeros de vida</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">Residual</div>
+            <div class="tag">Considerados mera "propiedad"</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <span class="q">Pregunta 2</span>
+      <h2>¿Cómo relatan las audiencias su vínculo diario con las mascotas?</h2>
+      <p class="insight">
+        Al analizar cualitativamente el discurso en el ecosistema digital, observamos un bloque contundente de interacciones que codifican un nivel extremo de afecto. La audiencia utiliza expresiones coloquiales y avanza explícitamente hacia un léxico de asimilación parental. El animal ocupa un lugar de altísima jerarquía emocional, integrado directamente como núcleo familiar.
+      </p>
+      
+      <div class="quali-layout" id="qualiLayout"></div>
+      
+    </section>
+
+    <section class="block">
+      <span class="q">Pregunta 3</span>
+      <h2>¿Estos elementos pueden ser causa de la baja natalidad en Argentina?</h2>
+      <p class="insight" id="insight3"></p>
+      <div class="chart-grid single">
+        <div class="panel">
+          <h3>Nacimientos totales por año (todas las provincias)</h3>
+          <div class="sub">Suma de nacimientos registrados por grupo etario de la madre</div>
+          <div class="chart-wrap tall"><canvas id="chartNacimientos"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <span class="q">Discusión cualitativa</span>
+      <h2>Crianza vs. Tenencia: La ecuación entre economía y autonomía</h2>
+      <p class="insight">
+        Más allá de la afinidad afectiva, existen factores materiales que explican por qué la tenencia de animales crece mientras la maternidad y paternidad se posponen o descartan:
+      </p>
+      <div class="compare-grid">
+        <div class="compare-card mascota">
+          <h3>Vínculo con Mascota</h3>
+          <ul>
+            <li><strong>Costo económico:</strong> Inversión mensual acotada (alimentación y sanidad preventiva).</li>
+            <li><strong>Autonomía y tiempo:</strong> Permite mantener rutinas laborales flexibles y proyectos individuales.</li>
+            <li><strong>Compromiso:</strong> Cuidado de menor dependencia sin requerir reconfiguración de la carrera profesional.</li>
+          </ul>
+        </div>
+        <div class="compare-card hijos">
+          <h3>Crianza de Hijos</h3>
+          <ul>
+            <li><strong>Costo económico:</strong> Alta demanda presupuestaria sostenida (salud, educación, vivienda, vestimenta).</li>
+            <li><strong>Autonomía y tiempo:</strong> Demanda absoluta y pérdida de libertad personal inmediata, especialmente en los primeros años.</li>
+            <li><strong>Compromiso:</strong> Responsabilidad legal y social a largo plazo que condiciona el estilo de vida familiar.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-adopcion">
+      <h3>¿Tenés lugar en tu familia?</h3>
+      <p>Transformá el dato estadístico en acción directa. Comunicate con la organización <strong>Adopciones Quilmes</strong> y cambiale la vida a un animal rescatado.</p>
+      
+      <a href="https://wa.me/5491169233782?text=Hola%20me%20interesa%20adoptar!" target="_blank" class="btn-wpp">
+        ¡Adoptar por WhatsApp!
+      </a>
+    </div>
+
+    <footer class="note">
+      Nota metodológica: Encuesta propia, análisis textual de comentarios en YouTube, datos de natalidad del Registro Civil/Ministerio de Salud e indicadores conceptuales de HumanePro (Pets by the Numbers). Los datos permiten mapear una transformación en las prioridades afectivas y socioeconómicas contemporáneas, sin asumir causalidades lineales directas.
+    </footer>
+
+  </div>
+
+  <!-- VISTA 2: SALA DE ESCAPE (ESCAPE ROOM INTERACTIVO) -->
+  <div id="escape-room-view" hidden style="padding: 2rem 1rem;">
+    <header class="hero" style="margin-bottom: 2rem;">
+      <div class="kicker">Experiencia Interactiva · Año 2063</div>
+      <h1 class="title">Proyecto Inerte: <em>Sala de Escape</em></h1>
+      <p class="bajada">Poné a prueba tus habilidades resolviendo los misterios del consultorio del veterinario Patricio. Superá los desafíos antes de que se cumpla el tiempo límite.</p>
+    </header>
+
+    <!-- Desafío 1: El Maletín -->
+    <div class="escape-card">
+      <h3>Zona A: El Maletín del Veterinario Patricio</h3>
+      <p>Ordená cronológicamente las 4 fichas clínicas veterinarias y descubrí la combinación numérica de 4 cifras (Ayuda del documento: Fichas ordenadas por fecha de ingreso, usando los números de los sellos).</p>
+      <div class="puzzle-input-group">
+        <input type="text" id="inputMaletin" class="puzzle-input" placeholder="Ej: 0000">
+        <button class="puzzle-btn" onclick="verificarMaletin()">Abrir Maletín</button>
+      </div>
+      <div id="feedbackMaletin" class="puzzle-feedback"></div>
+    </div>
+
+    <!-- Desafío 2: La Frecuencia de Audio -->
+    <div class="escape-card">
+      <h3>Zona B: La Frecuencia de Mecha</h3>
+      <p>Sintonizá la frecuencia exacta en hercios (Hz) descrita en la libreta de notas de Carla para aislar las interferencias de ruido blanco.</p>
+      <div class="puzzle-input-group">
+        <input type="number" id="input
