@@ -413,6 +413,30 @@
     max-width:64ch;
   }
 </style>
+
+<!-- FUNCIÓN GLOBAL ASEGURADA -->
+<script>
+  function switchView(viewName) {
+    const btnInfo = document.querySelector('.main-nav button:nth-child(1)');
+    const btnEscape = document.querySelector('.main-nav button:nth-child(2)');
+    const dashboard = document.getElementById('dashboard');
+    const escapeView = document.getElementById('escape-room-view');
+
+    if (!btnInfo || !btnEscape || !dashboard || !escapeView) return;
+
+    if (viewName === 'info') {
+      btnInfo.classList.add('active');
+      btnEscape.classList.remove('active');
+      dashboard.hidden = false;
+      escapeView.hidden = true;
+    } else {
+      btnEscape.classList.add('active');
+      btnInfo.classList.remove('active');
+      dashboard.hidden = true;
+      escapeView.hidden = false;
+    }
+  }
+</script>
 </head>
 <body>
 
@@ -594,4 +618,261 @@
   </div>
 
 <script>
-const PUB_BASE_URL = '
+const PUB_BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT2kbq08VCm15a0HyqWofnxXYwAaIfES2jXme7RTYyczoHVyodmSrJWNXTnP1uY-coF4c0NS9zH30T_/pub';
+
+const GID = {
+  encuesta: '1369376445',
+  nacimientos: '1691452967',
+  comentarios: '2085427083'
+};
+
+const csvUrl = gid => `${PUB_BASE_URL}?gid=${gid}&single=true&output=csv`;
+
+const COLORS = ['#B85C6B', '#2C6E68', '#D9A441', '#7D8C87', '#8A5A73', '#5C8F87'];
+
+function stripAccents(s){
+  return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function parseCsv(text){
+  return Papa.parse(text, {
+    header: true,
+    skipEmptyLines: true,
+    transformHeader: h => h.replace(/\s+/g, ' ').trim()
+  }).data;
+}
+
+async function fetchSheet(gid){
+  const res = await fetch(csvUrl(gid));
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  const text = await res.text();
+  return parseCsv(text);
+}
+
+function tally(rows, key){
+  const map = {};
+  rows.forEach(r => {
+    const v = (r[key] || '').toString().trim();
+    if(!v) return;
+    map[v] = (map[v] || 0) + 1;
+  });
+  return map;
+}
+
+function sumValues(obj){ return Object.values(obj).reduce((a,b) => a+b, 0); }
+function pct(part, total){ return total ? Math.round((part/total)*100) : 0; }
+
+function baseChartOptions(extra){
+  return Object.assign({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { font: { family: 'Inter' }, color: '#1D2521' } },
+      tooltip: { titleFont: { family:'Inter' }, bodyFont: { family:'Inter' } }
+    }
+  }, extra);
+}
+
+/* Lógica de validación de minijuegos del Escape Room */
+function verificarMaletin() {
+  const val = document.getElementById('inputMaletin').value.trim();
+  const fb = document.getElementById('feedbackMaletin');
+  if (val === '4185') {
+    fb.innerHTML = '<span class="success-msg">¡Correcto! El maletín se abrió y encontraste la llave dorada y el collar traductor.</span>';
+  } else {
+    fb.innerHTML = '<span class="error-msg">Código incorrecto. Revisá el orden cronológico de las fichas clínicas.</span>';
+  }
+}
+
+function verificarFrecuencia() {
+  const val = document.getElementById('inputFrecuencia').value.trim();
+  const fb = document.getElementById('feedbackFrecuencia');
+  if (val === '430') {
+    fb.innerHTML = '<span class="success-msg">¡Frecuencia sintonizada! Escuchás la voz de Mecha revelando el paradero de Amélie (Sujeto 0-4).</span>';
+  } else {
+    fb.innerHTML = '<span class="error-msg">Estática y aullidos. Esa no es la frecuencia limpia indicada por Carla (430 Hz).</span>';
+  }
+}
+
+function verificarPin() {
+  const val = document.getElementById('inputPin').value.trim();
+  const fb = document.getElementById('feedbackPin');
+  if (val === '8932') {
+    fb.innerHTML = '<span class="success-msg">¡PIN validado con éxito! Terminal de auditoría desbloqueada.</span>';
+  } else {
+    fb.innerHTML = '<span class="error-msg">Acceso denegado. Verifiqué la ruta del dinero y la fundación fachada.</span>';
+  }
+}
+
+async function init(){
+  document.getElementById('loading').hidden = false;
+  document.getElementById('error').hidden = true;
+  document.getElementById('dashboard').hidden = true;
+
+  try{
+    const [encuesta, nacimientos, comentarios] = await Promise.all([
+      fetchSheet(GID.encuesta),
+      fetchSheet(GID.nacimientos),
+      fetchSheet(GID.comentarios)
+    ]);
+
+    document.getElementById('loading').hidden = true;
+    document.getElementById('error').hidden = true;
+    document.getElementById('dashboard').hidden = false;
+
+    render(encuesta, nacimientos, comentarios);
+
+  }catch(err){
+    console.error(err);
+    document.getElementById('loading').hidden = true;
+    document.getElementById('dashboard').hidden = true;
+    document.getElementById('error').hidden = false;
+  }
+}
+
+function render(encuesta, nacimientos, comentarios){
+  const K_TIENE_MASCOTA = '¿Tenés alguna mascota?';
+  const K_CREES = '¿Creés que una mascota puede ocupar el lugar emocional de un vínculo humano o familiar?';
+  const K_REEMPLAZA = 'En tu caso personal, ¿sentís que tu mascota reemplaza o complementa tus vínculos con otras personas?';
+
+  const totalEncuestados = encuesta.length;
+  const tieneMascotaCount = encuesta.filter(r => stripAccents(r[K_TIENE_MASCOTA] || '').startsWith('si')).length;
+  const pctConMascota = pct(tieneMascotaCount, totalEncuestados);
+
+  const creesCounts = tally(encuesta, K_CREES);
+  const creesTotal = sumValues(creesCounts);
+  const creesSiCount = Object.entries(creesCounts).find(([k]) => stripAccents(k).startsWith('si'));
+  const pctCreesSi = pct(creesSiCount ? creesSiCount[1] : 0, creesTotal);
+
+  const reemplazaCounts = tally(encuesta, K_REEMPLAZA);
+  const reemplazaTotal = sumValues(reemplazaCounts);
+  const complementaEntry = Object.entries(reemplazaCounts).find(([k]) => stripAccents(k).includes('complementa'));
+  const pctComplementa = pct(complementaEntry ? complementaEntry[1] : 0, reemplazaTotal);
+
+  const totalComentarios = comentarios.filter(r => (r.text || '').toString().trim().length > 0).length;
+  const representacion28 = Math.round(totalComentarios * 0.28);
+
+  document.getElementById('qualiLayout').innerHTML = `
+    <div class="highlight-card">
+      <div class="big-num">28%</div>
+      <div class="big-txt">de las interacciones</div>
+      <div class="big-sub">
+        Equivale a más de <strong>${representacion28.toLocaleString('es-AR')}</strong> comentarios analizados en 100 videos de mascotas de YouTube.
+      </div>
+    </div>
+  `;
+
+  const porAnio = {};
+  nacimientos.forEach(r => {
+    const anio = parseInt(r.anio, 10);
+    const cantidad = parseInt(r.cantidad, 10);
+    if(isNaN(anio) || isNaN(cantidad)) return;
+    porAnio[anio] = (porAnio[anio] || 0) + cantidad;
+  });
+  const anios = Object.keys(porAnio).map(Number).sort((a,b) => a-b);
+  const valores = anios.map(a => porAnio[a]);
+  const firstYear = anios[0], lastYear = anios[anios.length - 1];
+  const firstVal = valores[0], lastVal = valores[valores.length - 1];
+  const variacion = firstVal ? Math.round(((lastVal - firstVal) / firstVal) * 100) : 0;
+
+  const kpiStrip = document.getElementById('kpiStrip');
+  kpiStrip.className = 'methodology-wrapper';
+  kpiStrip.innerHTML = `
+    <div class="methodology-list">
+      <div class="method-item">
+        <div class="toy-ball ball-1">${totalEncuestados}</div>
+        <div class="method-text">
+          <h3>Encuesta cuantitativa propia</h3>
+          <p>Cuestionario autoadministrado para relevar el rol afectivo de las mascotas en el entorno local, permitiendo segmentar las respuestas.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="toy-ball ball-2">${totalComentarios.toLocaleString('es-AR')}</div>
+        <div class="method-text">
+          <h3>Scraping de YouTube</h3>
+          <p>Extracción automatizada de comentarios en 100 videos de temática animal para analizar orgánicamente el discurso y las expresiones de afecto en la red.</p>
+        </div>
+      </div>
+      <div class="method-item">
+        <div class="toy-ball ball-3">${variacion > 0 ? '+' : ''}${variacion}%</div>
+        <div class="method-text">
+          <h3>Registros del Gobierno Nacional</h3>
+          <p>Evolución de los nacimientos a nivel país (${firstYear} → ${lastYear}). El dato surge de la base oficial consolidando los nacimientos anuales por provincia.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bone-wrapper">
+      <div class="toy-bone">${pctConMascota}%</div>
+      <h3>Tienen mascota</h3>
+      <p>De la muestra total encuestada, esta es la proporción exacta que convive actualmente con animales, confirmando la adopción masiva en los hogares.</p>
+    </div>
+  `;
+
+  document.getElementById('insight1').innerHTML =
+    `Sobre <strong>${creesTotal}</strong> respuestas, un <strong>${pctCreesSi}%</strong> considera admisible que una mascota
+    llegue a ocupar el lugar emocional de un vínculo humano o familiar. Sin embargo, en el plano personal directo, el
+    <strong>${pctComplementa}%</strong> define el lazo como un <strong>complemento</strong> afectivo y no una sustitución. Al igual
+    que muestran los relevamientos globales, el animal deja de concebirse como un objeto de propiedad y asume estatus de afecto,
+    pero convive junto a la red de sociabilidad humana en vez de anularla.`;
+
+  document.getElementById('insight3').innerHTML =
+    `Los nacimientos totales registrados descendieron de <strong>${firstVal.toLocaleString('es-AR')}</strong> en
+    ${firstYear} a <strong>${lastVal.toLocaleString('es-AR')}</strong> en ${lastYear}
+    (caída del <strong>${variacion}%</strong>). La curva coincide en el tiempo con la consolidación de los animales como miembros del hogar.
+    Sin embargo, la demografía responde a condicionantes materiales estructurales: mientras la crianza de un hijo exige una inversión económica prolongada y postergación de la autonomía individual, la mascota ofrece compañía afectiva inmediata con costos y ataduras sustancialmente menores.`;
+
+  new Chart(document.getElementById('chartCrees'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(creesCounts),
+      datasets: [{ data: Object.values(creesCounts), backgroundColor: COLORS, borderColor: '#FBFAF7', borderWidth: 2 }]
+    },
+    options: baseChartOptions({ plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font:{family:'Inter'}, color:'#1D2521' } } } })
+  });
+
+  new Chart(document.getElementById('chartReemplaza'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(reemplazaCounts),
+      datasets: [{ label: 'Respuestas', data: Object.values(reemplazaCounts), backgroundColor: '#2C6E68', borderRadius: 4 }]
+    },
+    options: baseChartOptions({
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { color:'#D8D9D0' } },
+        y: { ticks: { font:{family:'Inter'}, color:'#1D2521' }, grid: { display:false } }
+      }
+    })
+  });
+
+  new Chart(document.getElementById('chartNacimientos'), {
+    type: 'line',
+    data: {
+      labels: anios,
+      datasets: [{
+        label: 'Nacimientos totales',
+        data: valores,
+        borderColor: '#B85C6B',
+        backgroundColor: 'rgba(184,92,107,0.12)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 2
+      }]
+    },
+    options: baseChartOptions({
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: false, ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { color:'#D8D9D0' } },
+        x: { ticks: { font:{family:'Inter'}, color:'#55605B' }, grid: { display:false } }
+      }
+    })
+  });
+}
+
+document.getElementById('retryBtn').addEventListener('click', init);
+init();
+</script>
+</body>
+</html>
