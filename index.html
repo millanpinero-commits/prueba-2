@@ -575,4 +575,23 @@
       <h3>Zona B: La Frecuencia de Mecha</h3>
       <p>Sintonizá la frecuencia exacta en hercios (Hz) descrita en la libreta de notas de Carla para aislar las interferencias de ruido blanco.</p>
       <div class="puzzle-input-group">
-        <input type="number" id="input
+        <input type="number" id="inputFrecuencia" class="puzzle-input" placeholder="Ej: 000 Hz">
+        <button class="puzzle-btn" onclick="verificarFrecuencia()">Sintonizar</button>
+      </div>
+      <div id="feedbackFrecuencia" class="puzzle-feedback"></div>
+    </div>
+
+    <!-- Desafío 3: El PIN Financiero -->
+    <div class="escape-card">
+      <h3>Zona C: La Ruta del Dinero</h3>
+      <p>Analiza el tablero de investigación y los balances contables para hallar el código PIN de 4 dígitos necesario para acceder a la terminal de auditoría.</p>
+      <div class="puzzle-input-group">
+        <input type="text" id="inputPin" class="puzzle-input" placeholder="Ej: 0000">
+        <button class="puzzle-btn" onclick="verificarPin()">Validar PIN</button>
+      </div>
+      <div id="feedbackPin" class="puzzle-feedback"></div>
+    </div>
+  </div>
+
+<script>
+const PUB_BASE_URL = '
