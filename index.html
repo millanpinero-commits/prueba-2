@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¿Reemplazo o complemento? El vínculo con las mascotas en la Argentina</title>
+<title>Proyecto Inerte: El vínculo con las mascotas y Escape Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
 
   [hidden] { display: none !important; }
 
-  /* ---------- Menú de Navegación ---------- */
+  /* Menú de Navegación */
   .main-nav {
     position: sticky;
     top: 0;
@@ -67,7 +67,7 @@
   .nav-btn:hover { border-color: var(--teal); color: var(--teal); }
   .nav-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
 
-  /* Cronómetro integrado en la vista del Escape Room */
+  /* Cronómetro */
   .cronometro-escape-box {
     background: #111;
     color: #ff4757;
@@ -113,7 +113,7 @@
   h1.title em{ font-style:italic; color:var(--rose); }
   .bajada{ margin-top:1.1rem; max-width:48em; font-size:1.15rem; color:var(--ink-soft); }
 
-  /* Pelotas y Hueso Metodológico */
+  /* Gráficos y Dashboard original */
   .methodology-wrapper {
     display: grid; grid-template-columns: 1fr; gap: 4rem; margin-top: 3.5rem; border-top: 1px solid var(--line); padding-top: 3rem;
   }
@@ -131,9 +131,6 @@
 
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-  .method-text h3 { margin: 0 0 0.4rem; font-size: 1.25rem; color: var(--ink); }
-  .method-text p { margin: 0; font-size: 1rem; color: var(--ink-soft); max-width: 50ch; line-height: 1.5; }
-
   .bone-wrapper {
     display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2.5rem 2rem; background: var(--panel); border: 1px dashed var(--line); border-radius: var(--radius);
   }
@@ -150,7 +147,6 @@
   .block h2{ font-size:1.5rem; max-width:32em; }
   .block .q{ color:var(--rose); font-weight:500; font-family:'Inter',sans-serif; font-size:1rem; margin-bottom:0.5rem; display:block; }
   .block p.insight{ margin-top:0.9rem; max-width:64ch; color:var(--ink-soft); font-size:1rem; }
-  .block p.insight strong{ color:var(--ink); font-weight:600; }
 
   .chart-grid{ margin-top:1.4rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:1.25rem; }
   .chart-grid.single{ grid-template-columns:1fr; }
@@ -201,7 +197,7 @@
   }
   .btn-wpp:hover { background: #1EBE57; }
 
-  /* ---------- Estilos de Minijuegos Escape Room (Modo Difícil e Histórico) ---------- */
+  /* ---------- Estilos Escape Room Avanzado e Histórico ---------- */
   #escape-room-view { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
   .escape-card {
     background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem;
@@ -254,6 +250,11 @@
     background: var(--teal); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
   }
   .puzzle-btn:hover { background: #245853; }
+  .puzzle-btn-secondary {
+    background: var(--ink-soft); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .puzzle-btn-secondary:hover { background: #3d4642; }
+
   .puzzle-feedback { margin-top: 1rem; font-weight: 600; }
   .success-msg { color: #2C6E68; }
   .error-msg { color: var(--rose); }
@@ -412,6 +413,7 @@
       </div>
     </section>
 
+    <!-- BOTÓN DE WHATSAPP INTACTO -->
     <div class="cta-adopcion">
       <h3>¿Tenés lugar en tu familia?</h3>
       <p>Transformá el dato estadístico en acción directa. Comunicate con la organización <strong>Adopciones Quilmes</strong> y cambiale la vida a un animal rescatado.</p>
@@ -424,87 +426,105 @@
 
   </div>
 
-  <!-- VISTA 2: SALA DE ESCAPE INTERACTIVA (MODO HISTORIA / NIVEL DIFÍCIL) -->
+  <!-- VISTA 2: SALA DE ESCAPE INTERACTIVA (HISTORIA 3 - CORRELATIVA Y CONTEXTUALIZADA) -->
   <div id="escape-room-view" hidden>
     <header class="hero" style="margin-bottom: 2rem;">
-      <div class="kicker">Experiencia Interactiva · Año 2063</div>
+      <div class="kicker">Experiencia Interactiva · Año 2063 (Historia 3)</div>
       <h1 class="title">Proyecto Inerte: <em>Sala de Escape</em></h1>
-      <p class="bajada">Analizá los expedientes confidenciales, interpretá los registros biológicos y descubrí la verdad antes de que el sistema active la purga total.</p>
+      <p class="bajada">El mapache Mecha ha sido capturado tras un fallido atraco[cite: 42]. En su confesión reveló el laboratorio clandestino del veterinario Patricio y la vacuna para volver inertes a los animales[cite: 42]. Investigá las pistas paso a paso para desenmascarar la red política.</p>
     </header>
 
     <div class="cronometro-escape-box">
       ⏱️ Tiempo transcurrido: <span id="tiempoTxt">00:00</span>
     </div>
 
-    <!-- Zona A: Fichas Clínicas con Narrativa de Coartada -->
-    <div class="escape-card">
-      <h3>Zona A: El Historial Clínico del Veterinario Patricio</h3>
+    <!-- Introducción Narrativa General -->
+    <div class="escape-card" style="border-left: 4px solid var(--rose);">
+      <h3>Prólogo: La Confesión de Mecha</h3>
       <div class="lore-box">
-        <strong>Expediente de Campo:</strong> En el consultorio abandonado hallaste cuatro fichas clínicas alteradas por el paso del tiempo. La receta manuscrita de Patricio exige: <em>"Registrar la degradación cognitiva en estricto orden cronológico evolutivo basándose en el año de admisión del paciente"</em>[cite: 2]. Analizá las fechas e identificá el orden correcto de los sellos de control para abrir el maletín.
+        <em>"Creían que Patricio era solo un veterinario rural tradicional... No tienen idea de los intereses políticos detrás de la vacuna 'Inerte'. Me dejaron escapar de milagro, pero mis amigos siguen encerrados allí abajo. Si querés llegar hasta el fondo, vas a tener que seguir exactamente el rastro de evidencias que dejé ocultas en el consultorio abandonado."</em>
       </div>
-      <p>Seleccioná las fichas en el orden temporal correcto (de la más antigua a la más reciente)[cite: 2]:</p>
+    </div>
+
+    <!-- ZONA A: Fichas Clínicas -->
+    <div class="escape-card">
+      <h3>Paso 1 / Zona A: El Maletín del Veterinario Patricio</h3>
+      <div class="lore-box">
+        <strong>Contexto narrativo:</strong> Para ingresar al laboratorio subterráneo de Patricio, necesitás abrir su maletín personal protegido con un candado numérico de 4 cifras[cite: 2]. En el escritorio encontraste su vieja libreta que indica: <em>"La degradación cognitiva de los sujetos experimentales debe ordenarse estrictamente por su año de admisión clínica"</em>[cite: 2].
+      </div>
+      <p>Seleccioná las fichas clínicas en su orden cronológico evolutivo exacto[cite: 2]:</p>
       <div class="orden-actual">Secuencia analizada: <strong id="secuenciaFichas">- - - -</strong></div>
       <div class="fichas-container" id="fichasContainer">
-        <div class="ficha-item" onclick="seleccionarFicha(this, '8', '14/08/2061')"><strong>Paciente: Caniche "Boby"</strong><br>Ingreso: 14/08/2061<br>Sello de Control: <strong>8</strong></div>
-        <div class="ficha-item" onclick="seleccionarFicha(this, '4', '02/01/2058')"><strong>Paciente: Felino "Simón"</strong><br>Ingreso: 02/01/2058<br>Sello de Control: <strong>4</strong></div>
-        <div class="ficha-item" onclick="seleccionarFicha(this, '5', '30/11/2062')"><strong>Paciente: Zorra "Amélie"</strong><br>Ingreso: 30/11/2062<br>Sello de Control: <strong>5</strong></div>
-        <div class="ficha-item" onclick="seleccionarFicha(this, '1', '19/05/2059')"><strong>Paciente: Ovejero "Thor"</strong><br>Ingreso: 19/05/2059<br>Sello de Control: <strong>1</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '8', '14/08/2061')"><strong>Paciente: Caniche "Boby"</strong><br>Ingreso: 14/08/2061<br>Sello: <strong>8</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '4', '02/01/2058')"><strong>Paciente: Felino "Simón"</strong><br>Ingreso: 02/01/2058<br>Sello: <strong>4</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '5', '30/11/2062')"><strong>Paciente: Zorra "Amélie"</strong><br>Ingreso: 30/11/2062<br>Sello: <strong>5</strong></div>
+        <div class="ficha-item" onclick="seleccionarFicha(this, '1', '19/05/2059')"><strong>Paciente: Ovejero "Thor"</strong><br>Ingreso: 19/05/2059<br>Sello: <strong>1</strong></div>
       </div>
-      <div style="display: flex; gap: 1rem;">
-        <button class="puzzle-btn" onclick="probarCombinacionFichas()">Forzar Cerradura del Maletín</button>
-        <button class="puzzle-btn" style="background: var(--ink-soft);" onclick="reiniciarFichas()">Reiniciar Análisis</button>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="puzzle-btn" onclick="probarCombinacionFichas()">Forzar Cerradura</button>
+        <button class="puzzle-btn-secondary" onclick="reiniciarFichas()">Reiniciar Fichas</button>
       </div>
       <div id="feedbackMaletin" class="puzzle-feedback"></div>
     </div>
 
-    <!-- Zona B: Osciloscopio con Enigma de Frecuencia -->
-    <div class="escape-card">
-      <h3>Zona B: La Frecuencia de Mecha (Calibración de Espectro)</h3>
+    <!-- ZONA B: Frecuencia de Radio (Osciloscopio) -->
+    <div class="escape-card" id="cardZonaB" style="opacity: 0.5; pointer-events: none;">
+      <h3>Paso 2 / Zona B: La Frecuencia de Mecha</h3>
       <div class="lore-box">
-        <strong>Nota de Carla:</strong> <em>"El ruido blanco en el canal de radio enmascara la transmisión clandestina de Mecha. Los reportes técnicos indican que la modulación limpia de la resistencia cognitiva opera exactamente en la banda armónica anterior a los 450 Hz, pero superando el umbral de los 400 Hz donde colapsa el sistema nervioso"</em>[cite: 3].
+        <strong>Contexto narrativo:</strong> <em>¡Maletín abierto!</em> En su interior encontraste la llave dorada del pasadizo y una cinta de audio codificada que dejó Mecha[cite: 2, 3]. Al descender al laboratorio secreto, hallás un osciloscopio analógico[cite: 3]. Las notas de Carla advierten que la señal clara para escuchar el mensaje sobre el paradero de Amélie y el frasco violeta de la vacuna solo se obtiene modulando la frecuencia exacta[cite: 3].
       </div>
-      <p>Deslizá la perilla para hallar la frecuencia exacta en Hercios (Hz) que elimina la estática[cite: 3]:</p>
+      <p>Sintonizá la frecuencia limpia en Hercios (Hz) guiándote por los informes de Carla[cite: 3]:</p>
       <div class="osciloscopio-box">
         <div class="osciloscopio-screen" id="pantallaHz">~~~ 200 Hz ~~~</div>
-        <div id="estadoAudio" style="font-size: 0.85rem; color: #ff6b6b;">[ Estado: Estática densa y aullidos de distorsión ]</div>
+        <div id="estadoAudio" style="font-size: 0.85rem; color: #ff6b6b;">[ Estado: Estática densa y aullidos de interferencia ]</div>
       </div>
       <input type="range" min="100" max="800" value="200" class="slider-freq" id="sliderFrecuencia" oninput="actualizarFrecuencia(this.value)">
+      <div style="margin-top: 1rem;">
+        <button class="puzzle-btn-secondary" onclick="reiniciarOsciloscopio()">Reiniciar Sintonizador</button>
+      </div>
+      <div id="feedbackOsciloscopio" class="puzzle-feedback"></div>
     </div>
 
-    <!-- Zona C: Ruta del Dinero / Red de Conspiración -->
-    <div class="escape-card">
-      <h3>Zona C: La Ruta del Dinero (Trazabilidad de Fondos)</h3>
+    <!-- ZONA C: Ruta del Dinero -->
+    <div class="escape-card" id="cardZonaC" style="opacity: 0.5; pointer-events: none;">
+      <h3>Paso 3 / Zona C: La Ruta del Dinero y Conspiración Política</h3>
       <div class="lore-box">
-        <strong>Tablero de Investigación:</strong> Para desarticular la red de corrupción que financia el Proyecto Inerte, debés reconstruir el circuito exacto por el cual los sobornos políticos se disimulan a través de entidades legales fachada antes de llegar a la cuenta final de campaña[cite: 4].
+        <strong>Contexto narrativo:</strong> <em>¡Audio descifrado!</em> Ya sabés que Amélie (Sujeto 0-4) fue neutralizada con la sustancia inerte[cite: 3]. El siguiente paso, gracias a las pistas del audio, es hackear la terminal de auditoría del archivo secreto[cite: 4]. Para ello, debés reconstruir el circuito de lavado de dinero que conecta los sobornos de la clínica con la política[cite: 4].
       </div>
-      <p>Seleccioná los 3 nodos en el orden lógico de transferencia económica[cite: 4]:</p>
+      <p>Enlazá en orden correcto los 3 nodos de la red clandestina para destrabar el PIN (8-9-3-2)[cite: 4]:</p>
       <div class="money-grid">
-        <div class="money-node" onclick="seleccionarNodo(this, 'Clinica')">1. Facturación Clínica Veterinaria (Origen de ingresos)</div>
-        <div class="money-node" onclick="seleccionarNodo(this, 'Fachada')">2. Lavado vía Fundación "Pax Animal" (Fachada legal)</div>
-        <div class="money-node" onclick="seleccionarNodo(this, 'SaludPrivada')">X. Proveedor de Insumos Médicos S.A. (Desviado)</div>
-        <div class="money-node" onclick="seleccionarNodo(this, 'Politico')">3. Cuenta Institucional del Partido Político (Destino final)</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Clinica')">1. Clínica Veterinaria Patricio (Origen del negocio)</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Fachada')">2. Fundación Fachada "Pax Animal" (Lavado de fondos)</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'SaludPrivada')">X. Proveedor de Salud Privada S.A. (Falsa pista)</div>
+        <div class="money-node" onclick="seleccionarNodo(this, 'Politico')">3. Cuenta Institucional del Partido Político (Destino final del Político NN)</div>
       </div>
       <div class="orden-actual">Circuito financiero enlazado: <strong id="secuenciaNodos">Ninguno</strong></div>
-      <button class="puzzle-btn" onclick="verificarRutaDinero()">Autorizar Auditoría de Cuentas (PIN: 8932)</button>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="puzzle-btn" onclick="verificarRutaDinero()">Validar Conexión Financiera</button>
+        <button class="puzzle-btn-secondary" onclick="reiniciarRutaDinero()">Reiniciar Nodos</button>
+      </div>
       <div id="feedbackPin" class="puzzle-feedback"></div>
     </div>
 
-    <!-- Zona D: Dilema Moral con Consecuencias -->
-    <div class="escape-card">
-      <h3>Zona D: Sala de Control y Decisión Final</h3>
+    <!-- ZONA D: Decisión Final -->
+    <div class="escape-card" id="cardZonaD" style="opacity: 0.5; pointer-events: none;">
+      <h3>Paso 4 / Zona D: Sala de Control y Decisión Moral Final</h3>
       <div class="lore-box">
-        <strong>Protocolo de Emergencia:</strong> El temporizador central colapsó. Las fuerzas del régimen están a minutos de asegurar el perímetro. Tenés el control total de los servidores de datos del Proyecto Inerte y debés tomar una decisión definitiva de alto impacto ético y político[cite: 5].
+        <strong>Contexto narrativo:</strong> <em>¡Terminal de auditoría hackeada con éxito!</em> Llegaste a la consola central. El sistema autónomo inició una purga de datos por seguridad ante tu intrusión[cite: 4, 5]. Tenés que tomar una decisión drástica antes de que la policía política irrumpa en el lugar[cite: 5].
       </div>
-      <p>Seleccioná tu curso de acción operativo[cite: 5]:</p>
+      <p>Elegí cómo concluir la investigación del Proyecto Inerte[cite: 5]:</p>
       <div class="dilema-box">
         <button class="btn-dilema-azul" onclick="tomarDecision('A')">
           <strong>OPCIÓN A: Liberación Inmediata</strong><br>
-          Desactivar los cerrojos de las celdas subterráneas y rescatar físicamente a Amélie y a la banda, sacrificando de forma definitiva todos los respaldos digitales de la conspiración[cite: 5].
+          Destrabar las celdas y rescatar físicamente a Amélie y los sujetos, perdiendo todo el archivo probatorio contra el Político[cite: 5].
         </button>
         <button class="btn-dilema-rojo" onclick="tomarDecision('B')">
           <strong>OPCIÓN B: Transmisión Masiva</strong><br>
-          Eyectar todos los archivos, balances y nombres de los funcionarios corruptos a la red pública global para destruir al régimen, abandonando a su suerte a los sujetos de prueba[cite: 5].
+          Eyector masivo de pruebas a todas las redes públicas para desenmascarar al Político globalmente, dejando atrapados a los sujetos[cite: 5].
         </button>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button class="puzzle-btn-secondary" onclick="reiniciarDilema()">Reiniciar Misión</button>
       </div>
       <div id="feedbackDilema" class="puzzle-feedback" style="margin-top: 1.5rem; font-size: 1.05rem;"></div>
     </div>
@@ -530,7 +550,7 @@ function sumValues(obj){ return Object.values(obj).reduce((a,b) => a+b, 0); }
 function pct(part, total){ return total ? Math.round((part/total)*100) : 0; }
 function baseChartOptions(extra){ return Object.assign({ responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { font: { family: 'Inter' }, color: '#1D2521' } }, tooltip: { titleFont: { family:'Inter' }, bodyFont: { family:'Inter' } } } }, extra); }
 
-/* Lógica Minijuego Zona A */
+/* ZONA A: Fichas Clínicas */
 let codigosSeleccionados = [];
 function seleccionarFicha(el, sello, fecha) {
   if (el.classList.contains('selected')) return;
@@ -549,32 +569,47 @@ function reiniciarFichas() {
 function probarCombinacionFichas() {
   const fb = document.getElementById('feedbackMaletin');
   if (codigosSeleccionados.join('') === '4185') {
-    fb.innerHTML = '<span class="success-msg">¡Correcto! El maletín cedió al combinar las fechas cronológicas y reveló la llave dorada[cite: 2].</span>';
+    fb.innerHTML = '<span class="success-msg">¡Correcto! El maletín cedió, revelando la llave dorada y desbloqueando el acceso a la Zona B[cite: 2].</span>';
+    // Habilitar siguiente zona
+    const zonaB = document.getElementById('cardZonaB');
+    zonaB.style.opacity = '1';
+    zonaB.style.pointerEvents = 'auto';
+    zonaB.scrollIntoView({ behavior: 'smooth' });
   } else {
-    fb.innerHTML = '<span class="error-msg">Error en la secuencia temporal. Analizá bien el año de admisión de cada paciente de Patricio[cite: 2].</span>';
+    fb.innerHTML = '<span class="error-msg">Secuencia incorrecta. Analizá bien las fechas de ingreso de los pacientes[cite: 2]. Usá el botón de reiniciar si querés reintentar.</span>';
   }
 }
 
-/* Lógica Minijuego Zona B */
+/* ZONA B: Osciloscopio */
 function actualizarFrecuencia(val) {
   const pantalla = document.getElementById('pantallaHz');
   const estado = document.getElementById('estadoAudio');
   if (val == 430) {
     pantalla.innerHTML = `=== 430 Hz (LIMPIO) ===`;
     estado.style.color = '#2ed573';
-    estado.innerHTML = `[ ¡Frecuencia sintonizada con éxito! Voz de Mecha: "¡Amélie no logró escapar! La registraron como Sujeto 0-4. Guardaron su antígeno en el frasco violeta..." ][cite: 3]`;
+    estado.innerHTML = `[ ¡Frecuencia sintonizada! Audio de Mecha desbloqueado: "¡Amélie es el Sujeto 0-4, antígeno en frasco violeta!" Pasá a la Zona C ][cite: 3]`;
+    
+    // Habilitar Zona C
+    const zonaC = document.getElementById('cardZonaC');
+    zonaC.style.opacity = '1';
+    zonaC.style.pointerEvents = 'auto';
   } else if (val >= 420 && val <= 440) {
     pantalla.innerHTML = `~.~ 4${val.toString().slice(-2)} Hz ~.~`;
     estado.style.color = '#ffa502';
-    estado.innerHTML = `[ Interferencia moderada: Estás muy cerca del rango seguro sugerido por Carla ]`;
+    estado.innerHTML = `[ Estática leve: Estás muy cerca de la frecuencia exacta ]`;
   } else {
     pantalla.innerHTML = `~~~ ${val} Hz ~~~`;
     estado.style.color = '#ff6b6b';
-    estado.innerHTML = `[ Estado: Estática densa y aullidos de distorsión cognitiva ]`;
+    estado.innerHTML = `[ Estado: Estática densa y aullidos de interferencia ]`;
   }
 }
 
-/* Lógica Minijuego Zona C */
+function reiniciarOsciloscopio() {
+  document.getElementById('sliderFrecuencia').value = 200;
+  actualizarFrecuencia(200);
+}
+
+/* ZONA C: Ruta del Dinero */
 let nodosRuta = [];
 function seleccionarNodo(el, tipo) {
   if (el.classList.contains('connected')) return;
@@ -583,26 +618,57 @@ function seleccionarNodo(el, tipo) {
   document.getElementById('secuenciaNodos').innerText = nodosRuta.join(' → ');
 }
 
+function reiniciarRutaDinero() {
+  nodosRuta = [];
+  document.getElementById('secuenciaNodos').innerText = 'Ninguno';
+  document.getElementById('feedbackPin').innerHTML = '';
+  document.querySelectorAll('.money-node').forEach(el => el.classList.remove('connected'));
+}
+
 function verificarRutaDinero() {
   const fb = document.getElementById('feedbackPin');
   if (nodosRuta.length === 3 && nodosRuta[0] === 'Clinica' && nodosRuta[1] === 'Fachada' && nodosRuta[2] === 'Politico') {
-    fb.innerHTML = '<span class="success-msg">¡Trazabilidad confirmada! PIN de auditoría verificado: <strong>8932</strong>. Sistema de archivos desbloqueado[cite: 4].</span>';
+    fb.innerHTML = '<span class="success-msg">¡Trazabilidad confirmada! PIN 8932 validado. Terminal de control y Zona D desbloqueadas[cite: 4].</span>';
+    
+    // Habilitar Zona D
+    const zonaD = document.getElementById('cardZonaD');
+    zonaD.style.opacity = '1';
+    zonaD.style.pointerEvents = 'auto';
+    zonaD.scrollIntoView({ behavior: 'smooth' });
   } else {
-    fb.innerHTML = '<span class="error-msg">Circuito financiero inválido. El lavado exige derivar el dinero de la clínica a la fundación fachada antes de llegar al partido[cite: 4].</span>';
+    fb.innerHTML = '<span class="error-msg">Circuito financiero erróneo. Usá el botón de reiniciar para corregir el flujo[cite: 4].</span>';
   }
 }
 
-/* Lógica Minijuego Zona D */
+/* ZONA D: Dilema Moral Final */
 function tomarDecision(opcion) {
   const fb = document.getElementById('feedbackDilema');
   let tiempoFinal = document.getElementById('tiempoTxt').innerText;
   if (cronometroInterval) clearInterval(cronometroInterval);
 
   if (opcion === 'A') {
-    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN A EJECUTADA!</strong> Las celdas se abrieron y rescataste a Amélie, pero los servidores sufrieron un formateo irrecuperable y las pruebas contra el Político se perdieron para siempre.<br><em>Tiempo total de investigación: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN A EJECUTADA!</strong> Liberaste a Amélie y a la banda de Mecha. Sin embargo, los servidores sufrieron un formateo irrecuperable y las pruebas contra el Político se perdieron.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
   } else {
-    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN B EJECUTADA!</strong> Transmisión masiva exitosa a todas las cadenas globales. La conspiración política quedó expuesta al instante, pero las fuerzas de seguridad bloquearon el rescate físico de los sujetos.<br><em>Tiempo total de investigación: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
+    fb.innerHTML = `<span class="success-msg">⚡ <strong>¡OPCIÓN B EJECUTADA!</strong> Transmisión masiva exitosa a todas las redes públicas. La conspiración política salió a la luz globalmente, pero las fuerzas de seguridad bloquearon el rescate físico de los sujetos.<br><em>Tiempo total de resolución: ${tiempoFinal}</em>[cite: 5, 6]</span>`;
   }
+}
+
+function reiniciarDilema() {
+  document.getElementById('feedbackDilema').innerHTML = '';
+  tiempoSegundos = 0;
+  reiniciarFichas();
+  reiniciarOsciloscopio();
+  reiniciarRutaDinero();
+  document.getElementById('cardZonaB').style.opacity = '0.5';
+  document.getElementById('cardZonaB').style.pointerEvents = 'none';
+  document.getElementById('cardZonaC').style.opacity = '0.5';
+  document.getElementById('cardZonaC').style.pointerEvents = 'none';
+  document.getElementById('cardZonaD').style.opacity = '0.5';
+  document.getElementById('cardZonaD').style.pointerEvents = 'none';
+  document.getElementById('tiempoTxt').innerText = '00:00';
+  if (cronometroInterval) clearInterval(cronometroInterval);
+  cronometroInterval = null;
+  iniciarCronometro();
 }
 
 async function init(){
